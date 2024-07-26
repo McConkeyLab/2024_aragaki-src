@@ -1,0 +1,3 @@
+[submodule "general_tcga"]
+	path = general_tcga
+	url = https://github.com/McConkeyLab/general_tcga
