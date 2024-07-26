@@ -35,7 +35,7 @@ fit <- survfit2(Surv(follow_up_time, death) ~ exceeds_group_mean + cluster, data
 ggplot(fit, aes(time, estimate, color = subtype, linetype = above_mean)) +
   geom_step() +
   facet_wrap(~subtype, ncol = 1) +
-  coord_cartesian(xlim = c(0, 3 * 365)) +
+  coord_cartesian(xlim = c(0, 5 * 365)) +
   theme_minimal() +
   theme(legend.position = "none")
 
