@@ -128,9 +128,17 @@ ggsave(
 
 surv <- plotting_data |>
   mutate(rfs = as.numeric(`RFS months (60 months FU)`),
-         recur_event = as.numeric(`Recurrence (60 months FU)`))
+         recur_event = as.numeric(`Recurrence (60 months FU)`),
+         pfs = as.numeric(`PFS months (60 months FU)`),
+         progress_event = as.numeric(`Progression (60 months FU)`))
+
+
 
 coxph(
   Surv(rfs, recur_event) ~ SRC,
   data = surv
 )
+
+tapply(surv, ~uromol, \(x) coxph(Surv(rfs, recur_event) ~ SRC, data = x))
+
+tapply(surv, ~uromol, \(x) coxph(Surv(pfs, progress_event) ~ SRC, data = x))
