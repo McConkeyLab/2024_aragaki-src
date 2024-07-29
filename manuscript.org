@@ -52,8 +52,12 @@ This appears not to be the case. Using a coxph, SRC expression appears to be sig
 ** TODO FIGURE 2 [0/3]
 *** TODO
 We next examined the relationship between SRC expression and molecular subtype membership in MIBCs. Overall, SRC expression was associated with longer progression-free and overall survival in TCGA and several other public datasets (Figure 2).
+**** NOTE
+This tends not to be the case. No significant Cox ph except for Neuronal (HR: 0.393)
 *** TODO
 In TCGA, SRC expression was significantly higher in cancers assigned to the luminal papillary subtype as compared with those assigned to the other molecular subtypes (Figure 2).
+**** NOTE
+This is true except for the Luminal subtype
 
 *** TODO
 Analysis of TCGA reverse-phase protein array (RPPA) data confirmed that total and phosphorylated (active) SRC levels were highest in luminal papillary MIBCs (Figure 2).
