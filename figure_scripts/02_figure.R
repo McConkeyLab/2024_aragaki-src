@@ -49,3 +49,7 @@ tapply(both, ~ `mRNA cluster`, \(x) coxph(Surv(follow_up_time, death) ~ src, dat
   lapply(tidy, exponentiate = TRUE) |>
   bind_rows(.id = "subtype")
 
+lp <- filter(both, `mRNA cluster` == "Luminal_papillary")
+not_lp <- filter(both, `mRNA cluster` != "Luminal_papillary")
+
+tapply(not_lp, ~ `mRNA cluster`, \(x) t.test(lp$src, x$src))
