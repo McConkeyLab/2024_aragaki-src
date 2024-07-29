@@ -37,16 +37,15 @@ ggplot(fit, aes(time, estimate, color = subtype, linetype = above_mean)) +
   facet_wrap(~subtype, ncol = 1) +
   coord_cartesian(xlim = c(0, 5 * 365)) +
   theme_minimal() +
-  theme(legend.position = "none")
-
-
-ggsurvfit(fit) +
-  facet_wrap(~strata) +
-  coord_cartesian(xlim = c(0, 1000))
+  scale_color_npg() +
+  guides(linetype = guide_legend(nrow = 2), color = "none") +
+  theme(legend.position = "top") +
+  labs(linetype = "SRC > group mean", x = "Days", y = "OS")
 
 ggplot(both, aes(`mRNA cluster`, src)) +
   geom_jitter(width = 0.2, shape = 1, alpha = 0.5)
 
-tapply(both, ~ `mRNA cluster`, \(x) coxph(Surv(follow_up_time, death) ~ exceeds_group_mean, data = x))
+tapply(both, ~ `mRNA cluster`, \(x) coxph(Surv(follow_up_time, death) ~ src, data = x)) |>
+  lapply(tidy, exponentiate = TRUE) |>
+  bind_rows(.id = "subtype")
 
-coxph(Surv(follow_up_time, death) ~ src * `mRNA cluster`, data = both)

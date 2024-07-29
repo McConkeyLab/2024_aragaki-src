@@ -64,7 +64,8 @@ ggsave(
 # B ---------------------------------
 download.file(
   "https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-021-22465-w/MediaObjects/41467_2021_22465_MOESM5_ESM.zip", #nolint
-  paste0(tempdir(), "/data.zip")
+  paste0(tempdir(), "/data.zip"),
+  method = "curl"
 )
 unzip(paste0(tempdir(), "/data.zip"), exdir = tempdir())
 
