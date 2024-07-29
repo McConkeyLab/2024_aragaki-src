@@ -4,6 +4,8 @@ library(DESeq2)
 library(tidyverse)
 library(survival)
 library(readxl)
+library(ggsci)
+library(broom)
 
 tcga <- readRDS("general_tcga/01_data/blca/dds.rds")
 
