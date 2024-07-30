@@ -61,6 +61,8 @@ This is true except for the Luminal subtype
 
 *** TODO
 Analysis of TCGA reverse-phase protein array (RPPA) data confirmed that total and phosphorylated (active) SRC levels were highest in luminal papillary MIBCs (Figure 2).
+**** NOTE
+This is true
 
 ** TODO FIGURE 3 [0/4]
 *** TODO
