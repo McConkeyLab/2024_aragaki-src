@@ -16,10 +16,15 @@ starify <- function(pval) {
             .default = "NS")
 }
 # A ------------------------------------------
+# Takes a bit longer, uses network -
+# good to cache the results
+get_lund <- function() {
+  getGEO("GSE32894")[[1]]
+}
 
-fig_1a <- function() {
-  lund <- getGEO("GSE32894")[[1]]
+lund <- get_lund()
 
+fig_1a <- function(lund) {
   plotting_data <- as_tibble(pData(lund)) |>
     select(
       id = geo_accession,
