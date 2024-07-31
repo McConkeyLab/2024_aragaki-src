@@ -24,7 +24,9 @@ get_lund <- function() {
 
 lund <- get_lund()
 
-fig_1a <- function(lund) {
+# Converts to plotting data - whatever that may be
+# Abstract wrangling from plotting
+wrangle_lund <- function(lund) {
   plotting_data <- as_tibble(pData(lund)) |>
     select(
       id = geo_accession,
@@ -36,7 +38,7 @@ fig_1a <- function(lund) {
   src_id <- which(fData(lund)$ILMN_Gene == "SRC")
   plotting_data$src <- exprs(lund)[src_id, ]
 
-  plotting_data <- plotting_data |>
+  plotting_data |>
     mutate(
       stage = str_remove(stage, "(?<=[0-9])[a-z]$"),
       stage = factor(stage, c("Tx", "Ta", "T1", "T2", "T3", "T4")),
@@ -44,7 +46,10 @@ fig_1a <- function(lund) {
         factor(c("NMI", "MI"))
     ) |>
     filter(stage != "Tx", grade != "Gx")
+}
 
+fig_1a <- function(lund) {
+  plotting_data <- wrangle_lund(lund)
   tt <- t.test(formula = src ~ muscle_invasive, data = plotting_data)
 
   tt_data <- data.frame(
