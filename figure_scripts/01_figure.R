@@ -114,7 +114,14 @@ prep_uromol_src_data <- function() {
   src <- as_tibble(src, rownames = "id")
 
   left_join(clin, src, by = c(`UROMOL ID` = "id")) |>
-    mutate(uromol = str_remove(`UROMOL2021 classification`, "Class "))
+    mutate(
+      uromol = str_remove(`UROMOL2021 classification`, "Class "),
+      LundTax = factor(
+        LundTax,
+        levels = c("UroA.Prog", "GU", "UroC", "GU.Inf1"),
+        labels = c("UroA\nProg", "GU", "UroC", "GU\nInf1")
+      )
+    )
 }
 
 uromol_src <- prep_uromol_src_data()
@@ -226,71 +233,63 @@ fig_1b_extra <- function(uromol_src) {
   "figure_scripts/01-b_extra.png"
 }
 
+fig_1b_extra(uromol_src)
 
 # C -------------------------------------------
-fig_1c <- function(uromol_src) {
-  ua <- filter(uromol_src, LundTax == "UroA.Prog")
-  not_ua <- filter(uromol_src, LundTax != "UroA.Prog")
+fig_1c_test <- function(data) {
+  ua <- filter(data, LundTax == "UroA\nProg")
+  not_ua <- filter(data, LundTax != "UroA\nProg")
 
-  tt <- tapply(not_ua, ~LundTax, \(x) tidy(t.test(x$SRC, ua$SRC)))
-
-  tt_plotting <- tt |>
-    bind_rows() |>
-    mutate(lund = names(tt),
-           stars = starify(p.value)) |>
-    select(lund, p.value, stars) |>
+  tapply(not_ua, ~LundTax, \(x) tidy(t.test(x$SRC, ua$SRC))) |>
+    array2DF() |>
+    mutate(stars = starify(p.value)) |>
+    select(LundTax, p.value, stars) |>
     mutate(
-      lund = factor(
-        lund,
-        levels = c("UroA.Prog", "GU", "UroC", "GU.Inf1")
+      LundTax = factor(
+        LundTax,
+        levels = c("UroA\nProg", "GU", "UroC", "GU\nInf1")
       )
     ) |>
-    arrange(lund) |>
+    arrange(LundTax) |>
     mutate(
       x = 1,
       xend = seq_len(n()) + 1,
       y = c(8.5, 9, 9.5),
       mid = (x + xend) / 2
     )
+}
 
-  uromol_src$LundTax <- factor(
-    uromol_src$LundTax,
-    levels = c("UroA.Prog", "GU", "UroC", "GU.Inf1"),
-    labels = c("UroA\nProg", "GU", "UroC", "GU\nInf1")
-  )
-  c <- ggplot(uromol_src, aes(LundTax, SRC)) +
+fig_1c <- function(uromol_src) {
+  tt <- fig_1c_test(uromol_src)
+  plot <- ggplot(uromol_src, aes(LundTax, SRC)) +
     geom_jitter(
       width = 0.2, shape = 1, alpha = 0.5, size = 0.5,
       aes(color = LundTax)
     ) +
     stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.2) +
     geom_segment(
-      data = tt_plotting,
+      data = tt,
       aes(x = x, xend = xend, y = y, yend = y),
       inherit.aes = FALSE
     ) +
     geom_text(
-      data = tt_plotting,
+      data = tt,
       aes(x = mid, y = y, label = stars),
       vjust = -0.3,
       inherit.aes = FALSE,
       size = 2.5
     ) +
-    theme_minimal() +
     labs(x = "LundTax", y = "SRC", tag = "C") +
-    theme(
-      legend.position = "none",
-      panel.grid.major = element_line(linewidth = 0.1, color = "#AAAAAA"),
-      panel.grid.minor = element_line(linewidth = 0.1, color = "#AAAAAA")
-    ) +
-    scale_color_npg()
+    custom_ggplot +
+    theme(legend.position = "none")
 
   ggsave(
-    "figure_scripts/01-c.png", c,
+    "figure_scripts/01-c.png", plot,
     width = 2.2, height = 2.7, units = "in", dpi = 500
   )
-
+  "figure_scripts/01-c.png"
 }
+fig_1c(uromol_src)
 # D --------------
 
 surv <- uromol_src |>
