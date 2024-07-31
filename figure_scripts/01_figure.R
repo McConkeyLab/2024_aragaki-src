@@ -15,6 +15,15 @@ starify <- function(pval) {
             pval < 0.05  ~ "*",
             .default = "NS")
 }
+
+custom_ggplot <- list(
+  theme_minimal(),
+  scale_color_npg(),
+  theme(
+    panel.grid.major = element_line(linewidth = 0.1, color = "#AAAAAA"),
+    panel.grid.minor = element_line(linewidth = 0.1, color = "#AAAAAA")
+  )
+)
 # A ------------------------------------------
 # Takes a bit longer, uses network -
 # good to cache the results
@@ -27,7 +36,9 @@ lund <- get_lund()
 # Converts to plotting data - whatever that may be
 # Abstract wrangling from plotting
 wrangle_lund <- function(lund) {
-  plotting_data <- as_tibble(pData(lund)) |>
+  pheno <- lund |>
+    pData() |>
+    as_tibble() |>
     select(
       id = geo_accession,
       stage = `tumor_stage:ch1`,
@@ -35,46 +46,42 @@ wrangle_lund <- function(lund) {
       subtype = `molecular_subtype:ch1`
     )
 
-  src_id <- which(fData(lund)$ILMN_Gene == "SRC")
-  plotting_data$src <- exprs(lund)[src_id, ]
+  src_index <- which(fData(lund)$ILMN_Gene == "SRC")
+
+  plotting_data <- cbind(pheno, src = exprs(lund)[src_index, ])
 
   plotting_data |>
     mutate(
+      # Reduce stage granularity (T2a -> T2)
       stage = str_remove(stage, "(?<=[0-9])[a-z]$"),
       stage = factor(stage, c("Tx", "Ta", "T1", "T2", "T3", "T4")),
-      muscle_invasive = ifelse(stage %in% c("T2", "T3", "T4"), "MI", "NMI") |>
-        factor(c("NMI", "MI"))
+      muscle_invasive = ifelse(stage %in% c("T2", "T3", "T4"), "MI", "NMI"),
+      muscle_invasive = factor(muscle_invasive, c("NMI", "MI"))
     ) |>
     filter(stage != "Tx", grade != "Gx")
 }
 
+# Takes wrangled data, performs tests, and presents them in a plot-ready form
+test_fig_1a <- function(data) {
+  tt <- t.test(formula = src ~ muscle_invasive, data = data)
+  data.frame(label = starify(tt$p.value), x = 1.5, y = max(data$src))
+}
+
 fig_1a <- function(lund) {
   plotting_data <- wrangle_lund(lund)
-  tt <- t.test(formula = src ~ muscle_invasive, data = plotting_data)
-
-  tt_data <- data.frame(
-    label = starify(tt$p.value),
-    x = 1.5,
-    y = max(plotting_data$src)
-  )
-
+  tt <- test_fig_1a(plotting_data)
   a <- ggplot(plotting_data, aes(muscle_invasive, src)) +
     geom_jitter(
       width = 0.2, shape = 1, alpha = 0.5, size = 0.5,
       aes(color = muscle_invasive)
     ) +
     stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.2) +
-    theme_minimal() +
-    geom_text(data = tt_data, aes(x, y, label = label), size = 5) +
+    geom_text(data = tt, aes(x, y, label = label), size = 5) +
     # View, but not error bar, excludes outlier
     coord_cartesian(ylim = c(-2, NA)) +
     labs(x = NULL, y = "SRC", tag = "A") +
-    scale_color_npg() +
-    theme(
-      legend.position = "none",
-      panel.grid.major = element_line(linewidth = 0.1, color = "#AAAAAA"),
-      panel.grid.minor = element_line(linewidth = 0.1, color = "#AAAAAA")
-    )
+    theme(legend.position = "none") +
+    custom_ggplot()
 
   ggsave(
     "figure_scripts/01-a.png", a,
