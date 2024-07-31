@@ -80,8 +80,8 @@ fig_1a <- function(lund) {
     # View, but not error bar, excludes outlier
     coord_cartesian(ylim = c(-2, NA)) +
     labs(x = NULL, y = "SRC", tag = "A") +
-    theme(legend.position = "none") +
-    custom_ggplot()
+    custom_ggplot +
+    theme(legend.position = "none")
 
   ggsave(
     "figure_scripts/01-a.png", a,
@@ -89,6 +89,7 @@ fig_1a <- function(lund) {
   )
   "figure_scripts/01-a.png"
 }
+fig_1a(lund)
 # B ---------------------------------
 
 # Downloads UROMOL RNA expression data and clinical data,
@@ -118,54 +119,50 @@ prep_uromol_src_data <- function() {
 
 uromol_src <- prep_uromol_src_data()
 
-fig_1b <- function(uromol_src) {
-  cl1 <- filter(uromol_src, uromol == "1")
-  not_cl1 <- filter(uromol_src, uromol != "1")
+# Compare class 1 expression to all others
+test_fig_1b <- function(data) {
+  cl1 <- filter(data, uromol == "1")
+  not_cl1 <- filter(data, uromol != "1")
 
-  tt <- tapply(not_cl1, ~uromol, \(x) tidy(t.test(x$SRC, cl1$SRC)))
-
-  tt_plotting <- tt |>
-    bind_rows() |>
-    mutate(uromol = names(tt),
-           stars = starify(p.value)) |>
+  tapply(not_cl1, ~uromol, \(x) tidy(t.test(x$SRC, cl1$SRC))) |>
+    array2DF() |>
+    mutate(stars = starify(p.value)) |>
     select(uromol, p.value, stars) |>
     arrange(uromol) |>
     mutate(
       x = 1,
       xend = seq_len(n()) + 1,
       y = c(8.5, 9, 9.5),
-      mid = (x + xend)/2
+      mid = (x + xend) / 2
     )
+}
 
-  b <- ggplot(uromol_src, aes(uromol, SRC)) +
+fig_1b <- function(uromol_src) {
+  tt <- test_fig_1b(uromol_src)
+  plot <- ggplot(uromol_src, aes(uromol, SRC)) +
     geom_jitter(
       width = 0.2, shape = 1, alpha = 0.4, size = 0.5,
       aes(color = uromol)
     ) +
     stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.2) +
-    theme_minimal() +
     labs(x = "UROMOL2021", y = "SRC", tag = "B") +
     geom_segment(
-      data = tt_plotting,
+      data = tt,
       aes(x = x, xend = xend, y = y, yend = y),
       inherit.aes = FALSE
     ) +
     geom_text(
-      data = tt_plotting,
+      data = tt,
       aes(x = mid, y = y, label = stars),
       vjust = -0.3,
       inherit.aes = FALSE,
       size = 2.5
     ) +
-    theme(
-      legend.position = "none",
-      panel.grid.major = element_line(linewidth = 0.1, color = "#AAAAAA"),
-      panel.grid.minor = element_line(linewidth = 0.1, color = "#AAAAAA")
-    ) +
-    scale_color_npg()
+    custom_ggplot() +
+    theme(legend.position = "none")
 
   ggsave(
-    "figure_scripts/01-b.png", b,
+    "figure_scripts/01-b.png", plot,
     width = 1.7, height = 2.7, units = "in", dpi = 500
   )
   "figure_scripts/01-b.png"
@@ -173,61 +170,53 @@ fig_1b <- function(uromol_src) {
 
 fig_1b(uromol_src)
 
-fig_1b_extra <- function(uromol_src) {
-  long_pd <- uromol_src |>
+fig_1b_extra_wrangle <- function(data) {
+  data |>
     select(uromol, SRC, contains("signature")) |>
     pivot_longer(cols = -(uromol:SRC)) |>
     mutate(name = str_remove(name, "[:space:]signature")) |>
     arrange(name)
+}
 
-  prelim_cors <- tapply(long_pd, ~name, \(x) cor.test(x$SRC, x$value)) |>
-    lapply(tidy)
-
-  cors <- prelim_cors |>
-    bind_rows() |>
-    mutate(name = names(prelim_cors)) |>
-    arrange(estimate)
-
-  cors_class <- long_pd
-  cors_class$subclass <- paste0(cors_class$name, "_", cors_class$uromol)
-  prelim_cors_class <- tapply(
-    cors_class, ~subclass, \(x) tidy(cor.test(x$SRC, x$value))
-  )
-  cors_class <- prelim_cors_class |>
-    bind_rows() |>
-    mutate(name = names(prelim_cors_class)) |>
-    select(name, estimate, p.value) |>
-    separate(name, c("name", "class"), sep = "_") |>
+# Calculate correlation between SRC expression and signature values, stratified
+# by uromol class
+fig_1b_extra_test <- function(data) {
+  data$name_uromol <- paste0(data$name, "_", data$uromol)
+  tapply(
+    data, ~name_uromol, \(x) tidy(cor.test(x$SRC, x$value))
+  ) |>
+    array2DF() |>
+    select(name_uromol, estimate, p.value) |>
+    separate(name_uromol, c("name", "uromol"), sep = "_") |>
     mutate(
       star = starify(p.value),
       label = paste0("r: ", round(estimate, 2), " p: ", star)
     ) |>
-    arrange(name, class) |>
-    mutate(n = seq_len(n()), .by = "name") |>
-    mutate(y = -2 * n / 4,
-           x = 3.5)
+    mutate(mean_cor = mean(estimate), .by = "name") |>
+    arrange(mean_cor) |>
+    mutate(name = fct_inorder(name)) |>
+    mutate(y = c(-3, -3, -4, -4), x = c(3.5, 7, 3.5, 7), .by = "name")
+}
 
-  long_pd$name <- factor(long_pd$name, levels = cors$name)
-  cors_class$name <- factor(cors_class$name, levels = levels(long_pd$name))
+fig_1b_extra_data <- fig_1b_extra_wrangle(uromol_src)
 
-  pd <- left_join(long_pd, cors_class, by = c("name", uromol = "class"))
+fig_1b_extra <- function(uromol_src) {
+  cors <- fig_1b_extra_test(uromol_src)
 
-  plot <- ggplot(long_pd, aes(SRC, value, color = uromol)) +
-    facet_wrap(~name, scales = "free") +
-    geom_text(data = arrange(cors_class, name),
-              aes(x = x, y = y, label = label, color = class),
-              hjust = "inward", size = 3) +
+  # To harmonize ordering
+  uromol_src$name <- factor(uromol_src$name, levels = levels(cors$name))
+
+  plot <- ggplot(uromol_src, aes(SRC, value, color = uromol)) +
+    facet_wrap(~name) +
+    geom_text(data = arrange(cors, name),
+              aes(x = x, y = y, label = label, color = uromol),
+              hjust = 0, size = 3) +
     geom_point(alpha = 0.5, shape = 1, size = 0.2) +
-    geom_smooth(method = "lm", se = FALSE) +
-    theme_minimal() +
+    geom_smooth(method = "lm", se = FALSE, linewidth = 0.5) +
     labs(y = "Signature Score") +
     scale_x_continuous(breaks = c(0, 2.5, 5, 7.5, 10),
                        labels = c("0", "2.5", "5", "7.5", "10")) +
-    theme(
-      panel.grid.major = element_line(linewidth = 0.1, color = "#AAAAAA"),
-      panel.grid.minor = element_line(linewidth = 0.1, color = "#AAAAAA")
-    ) +
-    scale_color_npg()
+    custom_ggplot
 
   ggsave(
     "figure_scripts/01-b_extra.png",
