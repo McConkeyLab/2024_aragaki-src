@@ -13,13 +13,16 @@ fig <- function(data) {
       width = 0.2, shape = 16, alpha = 0.5, size = 0.5,
       aes(color = muscle_invasive)
     ) +
-    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.2) +
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.1) +
     geom_text(data = tt, aes(x, y, label = label), size = 5) +
     # View, but not error bar, excludes outlier
     coord_cartesian(ylim = c(-2, NA)) +
     labs(x = NULL, y = "SRC", tag = "A") +
     custom_ggplot +
-    theme(legend.position = "none")
+    theme(
+      legend.position = "none",
+      panel.grid.major.x = element_blank()
+    )
 
   ggsave(
     "02_figures/01-a.png", plot,

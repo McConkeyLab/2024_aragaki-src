@@ -16,7 +16,7 @@ fig <- function(data) {
       width = 0.2, shape = 16, alpha = 0.5, size = 0.5,
       aes(color = LundTax)
     ) +
-    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.2) +
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.1) +
     geom_segment(
       data = tt,
       aes(x = x, xend = xend, y = y, yend = y),
@@ -31,11 +31,14 @@ fig <- function(data) {
     ) +
     labs(x = "LundTax", y = "SRC", tag = "C") +
     custom_ggplot +
-    theme(legend.position = "none")
+    theme(
+      legend.position = "none",
+      panel.grid.major.x = element_blank()
+    )
 
   ggsave(
     "02_figures/01-c.png", plot,
-    width = 2.2, height = 2.7, units = "in", dpi = 500
+    width = 2.0, height = 2.7, units = "in", dpi = 500
   )
 }
 

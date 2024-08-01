@@ -15,8 +15,8 @@ fig <- function(data) {
       width = 0.2, shape = 16, alpha = 0.4, size = 0.5,
       aes(color = uromol)
     ) +
-    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.2) +
-    labs(x = "UROMOL2021", y = "SRC", tag = "B") +
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.1) +
+    labs(x = "UROMOL", y = "SRC", tag = "B") +
     geom_segment(
       data = tt,
       aes(x = x, xend = xend, y = y, yend = y),
@@ -30,11 +30,14 @@ fig <- function(data) {
       inherit.aes = FALSE
     ) +
     custom_ggplot +
-    theme(legend.position = "none")
+    theme(
+      legend.position = "none",
+      panel.grid.major.x = element_blank()
+    )
 
   ggsave(
     "02_figures/01-b.png", plot,
-    width = 1.7, height = 2.7, units = "in", dpi = 500
+    width = 1.5, height = 2.7, units = "in", dpi = 500
   )
 }
 

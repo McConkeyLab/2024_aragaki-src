@@ -8,7 +8,7 @@ tar_make(script = "R/targets/uromol.R", store = "stores/uromol/")
 
 uromol <- tar_read(uromol_plotting_data, store = "stores/uromol/")
 
-surv <- uromol_src |>
+surv <- uromol |>
   mutate(rfs = as.numeric(`RFS months (60 months FU)`),
          recur_event = as.numeric(`Recurrence (60 months FU)`),
          pfs = as.numeric(`PFS months (60 months FU)`),
