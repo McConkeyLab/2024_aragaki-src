@@ -1,0 +1,9 @@
+lund:
+  script: R/targets/lund.R
+  store: stores/lund
+tcga:
+  script: R/targets/tcga.R
+  store: stores/tcga
+uromol:
+  script: R/targets/uromol.R
+  store: stores/uromol
