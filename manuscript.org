@@ -68,10 +68,13 @@ Analysis of TCGA reverse-phase protein array (RPPA) data confirmed that total an
 **** NOTE
 This is true. It's also true that pY527 are highest, too
 
-** TODO FIGURE 3 [3/4]
+** TODO FIGURE 3 [3/5]
 *** DONE
 CLOSED: [2024-07-30 Tue 15:41]
-Differential SRC expression in human cell lines. We next examined whether SRC expression was also heterogeneous in a panel of 30 human bladder cancer cell lines. Unsupervised hierarchical clustering of whole transcriptome RNAseq data separated the lines into 3 major clusters that exhibited stepwise differences in SRC expression (Figure 3).
+Differential SRC expression in human cell lines. We next examined whether SRC expression was also heterogeneous in a panel of 30 human bladder cancer cell lines. Unsupervised hierarchical clustering of whole transcriptome RNAseq data separated the lines into 3 major clusters
+that exhibited stepwise differences in SRC expression (Figure 3).
+*** TODO
+test
 
 *** DONE
 CLOSED: [2024-07-30 Tue 15:59]

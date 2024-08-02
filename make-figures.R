@@ -14,3 +14,5 @@ source("figure_scripts/01_figure/d.R") # Just data, no figure output
 source("figure_scripts/02_figure/a.R") # Just data, no figure output
 source("figure_scripts/02_figure/b.R")
 source("figure_scripts/02_figure/c.R")
+source("figure_scripts/03_figure/a.R")
+source("figure_scripts/03_figure/b.R")
