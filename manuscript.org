@@ -72,12 +72,12 @@ This is true. It's also true that pY527 are highest, too
 *** DONE
 CLOSED: [2024-07-30 Tue 15:41]
 Differential SRC expression in human cell lines. We next examined whether SRC expression was also heterogeneous in a panel of 30 human bladder cancer cell lines. Unsupervised hierarchical clustering of whole transcriptome RNAseq data separated the lines into 3 major clusters
-that exhibited stepwise differences in SRC expression (Figure 3).
-*** TODO
-test
 
 *** DONE
-CLOSED: [2024-07-30 Tue 15:59]
+CLOSED: [2024-08-02 Fri 12:12]
+that exhibited stepwise differences in SRC expression (Figure 3).
+
+*** TODO
 We applied Consensus and Lund single-sample molecular subtype classifiers (Kamoun ref) to the RNAseq data to assign the cell lines to molecular subtypes (Figure 3).
 **** NOTE
 It seems like David wants to use results from the Lund group. But the other stuff is done

@@ -40,7 +40,7 @@ fig <- function() {
 
   ggsave(
     "02_figures/03-b.png", plot,
-    width = 1.75, height = 2.5, units = "in", dpi = 500
+    width = 2, height = 2.5, units = "in", dpi = 500
   )
 }
 
