@@ -1,3 +1,4 @@
+library(targets)
 library(ggsci)
 library(tidyverse)
 library(broom)
@@ -20,14 +21,24 @@ fig <- function(data) {
       aes(x = x, xend = xend, y = y, yend = y),
       inherit.aes = FALSE
     ) +
+    geom_segment(
+      data = filter(tt, !is.na(yend_seg)),
+      aes(x = mid, xend = mid, y = y, yend = yend_seg),
+      inherit.aes = FALSE
+    ) +
+    geom_segment(
+      data = filter(tt, !is.na(xend_top)),
+      aes(x = mid, xend = xend_top, y = yend_seg, yend = yend_seg),
+      inherit.aes = FALSE
+    ) +
     geom_text(
       data = tt,
-      aes(x = mid, y = y, label = stars),
+      aes(x = label_x, y = label_y, label = stars),
       vjust = 0.3,
       size = 5,
       inherit.aes = FALSE
     ) +
-    coord_cartesian(ylim = c(NA, 2000)) +
+    coord_cartesian(ylim = c(NA, 3500)) +
     labs(y = "Cells/hr", color = "Clade") +
     scale_y_log10() +
     custom_ggplot +
@@ -44,29 +55,61 @@ fig <- function(data) {
 test <- function(data) {
   t_fun(data) |>
     mutate(stars = starify(p.value)) |>
-    select(x, xend, stars) |>
-    mutate(
-      y = case_when(
-        x == 1 & xend == 11 ~ 1500,
-        x == 1 & xend == 8 ~ 300,
-        x == 5 ~ 700
-      ),
-      yend = y,
-      label_y = if_else(stars == "NS", y, y - 10),
-      mid = (x + xend) / 2
-    )
+    select(group_1, group_2, stars) |>
+    right_join(make_test_annotation())
+}
+
+make_test_annotation <- function() {
+  # LP vs Mes needs two horizontal segments
+  #    ___________
+  #   |           |
+  # ------     ------
+  #   LP         Mes
+  annot_coords <- tibble(
+    group_1 = c("lp", "lp", "lp",   "eo"),
+    group_2 = c("eo", "mes", "mes", "mes"),
+    x =       c(1,    1,     9,     5),
+    xend =    c(8,    4,     11,    11),
+    y =       c(300,  1500,  1500,  700),
+    yend = y,
+    mid = (x + xend) / 2
+  )
+  v_segs <- tibble(
+    group_1 = "lp",
+    group_2 = "mes",
+    yend_seg = 2000
+    # x and xend is mid in annot_coords
+    # y is y in annot_coords
+  )
+  top_seg <- tibble(
+    group_1 = "lp",
+    group_2 = "mes",
+    x = 1,
+    # x above used for join
+    # real x is mid
+    xend_top = (9 + 11) / 2,
+  )
+  label <- tibble(
+    group_1 = c("lp", "lp", "eo"),
+    group_2 = c("eo", "mes", "mes"),
+    label_x = c(4.5, 6, 8),
+    label_y = c(300, 2000, 700)
+  )
+  left_join(annot_coords, v_segs) |>
+    left_join(top_seg) |>
+    left_join(label)
 }
 
 t_fun <- function(data) {
   lp_v_e <- t.test(adj_count ~ clade, filter(data, clade %in% c("LP", "Ep. Other"))) |>
     tidy() |>
-    mutate(x = 1, xend = 11)
+    mutate(group_1 = "lp", group_2 = "eo")
   m_v_e <- t.test(adj_count ~ clade, filter(data, clade %in% c("Mes.", "Ep. Other"))) |>
     tidy() |>
-    mutate(x = 5, xend = 11)
+    mutate(group_1 = "eo", group_2 = "mes")
   lp_v_m <- t.test(adj_count ~ clade, filter(data, clade %in% c("LP", "Mes."))) |>
     tidy() |>
-    mutate(x = 1, xend = 8)
+    mutate(group_1 = "lp", group_2 = "mes")
   bind_rows(lp_v_e, m_v_e, lp_v_m)
 }
 
