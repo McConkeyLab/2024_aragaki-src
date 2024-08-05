@@ -1,6 +1,8 @@
 library(cellebrate)
 library(ggsci)
+library(tidyverse)
 library(classifyBLCA)
+library(DESeq2)
 
 source("R/functions/common.R")
 
@@ -13,25 +15,29 @@ fig <- function() {
 
   both <- left_join(consensus, cd, by = c(sample = "cell")) |>
     filter(nearest == class) |>
-    mutate(class = factor(class, ))
     mutate(
-      class = case_when(
-        class == "lum_p" ~ "LP",
-        class == "ba_sq" ~ "BS",
-        class == "ne_like" ~ "NE",
-        .default = NA
+      class = factor(
+        class,
+        c("lum_p", "ba_sq", "ne_like"),
+        c("LP", "BS", "NE")
       ),
-      clade = case_when(
-
+      clade = factor(
+        clade,
+        c("Luminal Papillary", "Epithelial Other", "Mesenchymal", "Unknown"),
+        c("LP", "Ep.", "Mes.", "Unk.")
       )
     )
-
-  ggplot(both, aes(clade, fill = nearest)) +
+  plot <- ggplot(both, aes(clade, fill = class)) +
     geom_bar() +
     scale_fill_npg() +
     theme_minimal() +
     custom_ggplot +
-    labs(x = "TCGA")
+    labs(x = "Clade", fill = "TCGA")
+
+  ggsave(
+    "02_figures/03-c.png", plot,
+    width = 2.5, height = 2.5, units = "in", dpi = 500
+  )
 }
 
 fig()
