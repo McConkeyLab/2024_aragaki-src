@@ -7,3 +7,6 @@ tcga:
 uromol:
   script: R/targets/uromol.R
   store: stores/uromol
+tw:
+  script: R/targets/tw.R
+  store: stores/tw
