@@ -1,4 +1,5 @@
 library(cellebrate)
+library(DESeq2)
 library(pheatmap)
 
 fig <- function() {
