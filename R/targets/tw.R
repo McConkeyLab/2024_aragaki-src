@@ -11,5 +11,6 @@ tar_option_set(
 source("./R/functions/tw.R")
 
 list(
-  tar_target(tw, wrangle_tw())
+  tar_target(tw_ka, wrangle_tw_ka()),
+  tar_target(tw_bw, wrangle_tw_bw())
 )
