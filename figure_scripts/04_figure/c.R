@@ -27,7 +27,7 @@ fig <- function(data) {
     ) +
     geom_point(aes(color = drug)) +
     scale_y_log10() +
-    labs(y = "Cells/hr", color = "Condition") +
+    labs(y = "Cells/hr", color = "Condition", tag = "C") +
     custom_ggplot +
     theme(
       axis.text.x = element_blank(),

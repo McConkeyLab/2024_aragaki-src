@@ -18,15 +18,15 @@ fig <- function() {
               "Mesenchymal" = pal[3],
               "Unknown" = pal[4])
   )
-  png("02_figures/03-e.png", width = 6, height = 2.2, units = "in", res = 500)
-  plot <- pheatmap(
+  png("02_figures/03-e.png", width = 6, height = 2.4, units = "in", res = 500)
+  pheatmap(
     data, scale = "row", annotation_col = col_annot,
     cluster_cols = FALSE, cluster_rows = FALSE,
     border_color = NA,
     color = colorRampPalette(c("green", "black", "red"))(100),
-    annotation_colors = ann_colors
+    annotation_colors = ann_colors,
+    main = "E                                                                     " #nolint lol
   )
-  print(plot)
   dev.off()
 }
 fig()

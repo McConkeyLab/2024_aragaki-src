@@ -32,7 +32,7 @@ fig <- function() {
     scale_fill_npg() +
     theme_minimal() +
     custom_ggplot +
-    labs(x = "Clade", fill = "TCGA")
+    labs(x = "Clade", fill = "TCGA", tag = "C")
 
   ggsave(
     "02_figures/03-c.png", plot,

@@ -37,7 +37,7 @@ fig <- function() {
       legend.position = "bottom"
     ) +
     coord_cartesian(ylim = c(NA, 1)) +
-    labs(color = "Clade", y = "Score")
+    labs(color = "Clade", y = "Score", tag = "D")
 
   ggsave(
     "02_figures/03-d.png", plot,

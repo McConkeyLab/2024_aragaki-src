@@ -39,7 +39,7 @@ fig <- function(data) {
       inherit.aes = FALSE
     ) +
     coord_cartesian(ylim = c(NA, 3500)) +
-    labs(y = "Cells/hr", color = "Clade") +
+    labs(y = "Cells/hr", color = "Clade", tag = "A") +
     scale_y_log10() +
     custom_ggplot +
     theme(
