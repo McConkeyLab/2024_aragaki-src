@@ -99,7 +99,8 @@ I'm showing all the significant (by ANOVA) signatures
 *** DONE
 CLOSED: [2024-08-04 Sun 22:43]
 The differential EMT levels in the clusters were reflected in differential expression of E-cadherin (CDH1), ZEB1, and ZEB2 (Figure 3).
-** TODO FIGURE 4 [3/3]
+** DONE FIGURE 4 [3/3]
+CLOSED: [2024-08-06 Tue 12:04]
 *** DONE
 CLOSED: [2024-08-05 Mon 14:28]
 Baseline levels of 2D invasion and migration correlate inversely with SRC expression. We next explored whether cell line molecular subtype membership correlated with rates of invasion and migration using conventional Boyden chamber assays (ref). The luminal papillary cell lines did not invade through Matrigel basement membrane extracts at all (Figure 4), whereas the GU and “epithelial” BASQ lines assigned to cluster 2 exhibited intermediate and the “mesenchymal” BASQ lines maximal Matrigel invasion (Figure 4).
