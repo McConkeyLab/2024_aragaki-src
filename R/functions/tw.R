@@ -1,6 +1,6 @@
-wrangle_tw_ka <- function() {
+wrangle_tw_ka <- function(cell_rna) {
   get_tw_ka() |>
-    tidy_tw_ka()
+    tidy_tw_ka(cell_rna)
 }
 
 get_tw_ka <- function() {
@@ -10,34 +10,32 @@ get_tw_ka <- function() {
     read_excel()
 }
 
-tidy_tw_ka <- function(tw) {
-
-  src_exp <- cell_rna[rownames(cell_rna) == "SRC", ] |> assay(2)
+tidy_tw_ka <- function(tw, cell_rna) {
 
   clade_data <- cell_rna |>
     colData() |>
     as_tibble() |>
-    select(cell, clade) |>
-    mutate(
-      cell = tolower(cell),
-      src = src_exp
-    )
+    select(cell, consensus, clade) |>
+    mutate(cell = tolower(cell))
 
   tw |>
-    filter(is.na(omit_reason)) |>
+    filter(is.na(omit_reason), !is.na(count)) |>
     left_join(clade_data, by = c(cell_line = "cell")) |>
     group_by(
       date, cell_line, cell_line_character, loading_number, transwell,
-      transwell_character, drug, concentration_uM, time_hr
+      drug, concentration_uM, time_hr, clade, consensus
     ) |>
-    mutate(exp_mean = mean(count, na.rm = TRUE)) |>
+    summarize(count = mean(count, na.rm = TRUE)) |>
     ungroup() |>
-    mutate(drug = fct_relevel(drug, "dmso"))
+    mutate(
+      drug = fct_relevel(drug, "dmso"),
+      operator = "ka"
+    )
 }
 
-wrangle_tw_bw <- function() {
+wrangle_tw_bw <- function(cell_rna) {
   get_tw_bw() |>
-    tidy_tw_bw()
+    tidy_tw_bw(cell_rna)
 }
 
 get_tw_bw <- function() {
@@ -47,26 +45,28 @@ get_tw_bw <- function() {
     read_excel(na = "NA")
 }
 
-tidy_tw_bw <- function(tw) {
-  src_exp <- cell_rna[rownames(cell_rna) == "SRC", ] |> assay(2)
+tidy_tw_bw <- function(tw, cell_rna) {
 
   clade_data <- cell_rna |>
     colData() |>
     as_tibble() |>
-    select(cell, clade) |>
-    mutate(
-      cell = tolower(cell),
-      src = src_exp
-    )
+    select(cell, consensus, clade) |>
+    mutate(cell = tolower(cell))
 
   tw |>
-    filter(is.na(omit_reason)) |>
+    filter(is.na(omit_reason), !is.na(count)) |>
+    filter(cell_line != "uc9") |> # These UC9s might be UC6s
     left_join(clade_data, by = c(cell_line = "cell")) |>
     group_by(
       date, cell_line, cell_line_character, loading_number, transwell,
-      transwell_character, drug, concentration_uM, time_hr
+      drug, concentration_uM, time_hr, clade, consensus
     ) |>
-    mutate(exp_mean = mean(count, na.rm = TRUE)) |>
+    summarize(count = mean(count, na.rm = TRUE)) |>
     ungroup() |>
-    mutate(drug = fct_relevel(drug, "dmso"))
+    mutate(
+      loading_number = ifelse(loading_number == "unknown", 1e5, loading_number) |>
+        as.numeric(),
+      drug = fct_relevel(drug, "dmso"),
+      operator = "bw"
+    )
 }

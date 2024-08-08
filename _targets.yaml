@@ -10,3 +10,6 @@ uromol:
 tw:
   script: R/targets/tw.R
   store: stores/tw
+cell_rna:
+  script: R/targets/cell_rna.R
+  store: stores/cell_rna
