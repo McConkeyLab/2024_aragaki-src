@@ -66,6 +66,7 @@ tidy_tw_bw <- function(tw, cell_rna) {
     mutate(
       loading_number = ifelse(loading_number == "unknown", 1e5, loading_number) |>
         as.numeric(),
+      drug = ifelse(drug == "azd0530", "saracatinib", drug),
       drug = fct_relevel(drug, "dmso"),
       operator = "bw"
     )
