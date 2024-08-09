@@ -10,22 +10,25 @@ tw <- tar_read(tw, store = "stores/tw/")
 
 fig <- function(data) {
   d <- prep_data(data)
+  tt <- test(d)
 
   plot <- ggplot(d, aes(x = name, y = adj_count, group = date)) +
     geom_line(linewidth = 0.2) +
     geom_point(aes(color = name), shape = 16, alpha = 0.75) +
-    facet_grid(~panel) +
+    facet_grid(cell_line ~ panel) +
     scale_y_log10() +
+    geom_text(data = tt, aes(x, y, label = stars, group = NULL)) +
     custom_ggplot +
     labs(y = "Cells/hr", tag = "A") +
     theme(
       legend.position = "none",
       axis.title.x = element_blank(),
       panel.grid.major.x = element_blank()
-    )
+    ) +
+    coord_cartesian(clip = "off")
   ggsave(
     "02_figures/s01-a.png", plot,
-    width = 3.7, height = 2, units = "in", dpi = 500
+    width = 4, height = 2, units = "in", dpi = 500
   )
 }
 
@@ -33,14 +36,14 @@ prep_data <- function(data) {
   data |>
     filter(
       cell_line_character == "parental",
-      cell_line == "uc6",
+      cell_line %in% c("uc6", "rt112"),
       transwell == "uncoated",
       drug %in% c("dmso", "bosutinib", "saracatinib", "galunisertib", "galunisertib; bosutinib"),
       concentration_uM %in% c(0, 1),
       time_hr == 20,
       loading_number == 100000
     ) |>
-    select(date, loading_number, drug, count, operator) |>
+    select(date, cell_line, loading_number, drug, count, operator) |>
     pivot_wider(names_from = drug, values_from = count) |>
     pivot_longer(cols = c(saracatinib, bosutinib, galunisertib, `galunisertib; bosutinib`)) |>
     mutate(name = if_else(name == "galunisertib; bosutinib", "Gal. + Bos.", name)) |>
@@ -54,17 +57,25 @@ prep_data <- function(data) {
     filter(!is.na(name)) |>
     mutate(
       adj_count = (value + 1) / 20,
+      cell_line = str_to_upper(cell_line),
       panel = str_to_title(panel) |>
         factor(c("Bosutinib", "Galunisertib", "Gal. + Bos.", "Saracatinib"))
     )
 }
 
+test <- function(data) {
+  data |>
+    select(-value) |>
+    pivot_wider(names_from = name, values_from = adj_count) |>
+    mutate(panel_line = paste0(panel, "_", cell_line)) |>
+    tapply(~panel_line, \(x) tidy(t.test(x$`+`, x$`-`, paired = TRUE, data = x))) |>
+    array2DF() |>
+    separate(panel_line, into = c("panel", "cell_line"), sep = "_") |>
+    mutate(
+      stars = starify(p.value),
+      x = 1.5,
+      y = 200
+    )
+}
+
 fig(tw)
-
-
-tt <- fil |>
-  select(-value) |>
-  pivot_wider(names_from = name, values_from = adj_count) |>
-  tapply(~panel, \(x) tidy(t.test(x$`+`, x$`-`, paired = TRUE, data = x))) |>
-  array2DF()
-
