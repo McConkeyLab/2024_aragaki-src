@@ -11,20 +11,21 @@ tw <- tar_read(tw, store = "stores/tw/")
 fig <- function(data) {
   d <- prep_data(data)
 
-  plot <- ggplot(d, aes(drug, adj_count)) +
-    geom_point(aes(color = drug)) +
+  plot <- ggplot(d, aes(x = name, y = adj_count, group = date)) +
+    geom_line(linewidth = 0.2) +
+    geom_point(aes(color = name), shape = 16, alpha = 0.75) +
+    facet_grid(~panel) +
     scale_y_log10() +
-    labs(y = "Cells/hr", color = "Condition", tag = "A") +
     custom_ggplot +
+    labs(y = "Cells/hr", tag = "A") +
     theme(
-      axis.text.x = element_blank(),
-      axis.title.x = element_blank()
-    ) +
-    coord_cartesian(xlim = c(1, NA))
-
+      legend.position = "none",
+      axis.title.x = element_blank(),
+      panel.grid.major.x = element_blank()
+    )
   ggsave(
     "02_figures/s01-a.png", plot,
-    width = 3, height = 2, units = "in", dpi = 500
+    width = 3.7, height = 2, units = "in", dpi = 500
   )
 }
 
@@ -34,21 +35,36 @@ prep_data <- function(data) {
       cell_line_character == "parental",
       cell_line == "uc6",
       transwell == "uncoated",
-      drug %in% c("dmso", "bosutinib", "saracatinib", "galunisertib"),
-      all(c("dmso", "bosutinib", "saracatinib", "galunisertib") %in% drug),
-      .by = c(date, cell_line)
+      drug %in% c("dmso", "bosutinib", "saracatinib", "galunisertib", "galunisertib; bosutinib"),
+      concentration_uM %in% c(0, 1),
+      time_hr == 20,
+      loading_number == 100000
     ) |>
-    summarize(
-      adj_count = mean((count + 1) / time_hr),
-      .by = c(cell_line, drug)
-    ) |>
+    select(date, loading_number, drug, count, operator) |>
+    pivot_wider(names_from = drug, values_from = count) |>
+    pivot_longer(cols = c(saracatinib, bosutinib, galunisertib, `galunisertib; bosutinib`)) |>
+    mutate(name = if_else(name == "galunisertib; bosutinib", "Gal. + Bos.", name)) |>
+    filter(!is.na(value)) |>
+    mutate(panel = name) |>
+    pivot_wider() |>
+    pivot_longer(cols = c(dmso, saracatinib, bosutinib, galunisertib, `Gal. + Bos.`)) |>
+    mutate(name = case_when(name == "dmso" ~ "-",
+                            name == panel ~ "+",
+                            .default = NA)) |>
+    filter(!is.na(name)) |>
     mutate(
-      drug = case_when(
-        drug == "dmso" ~ "DMSO",
-        .default = str_to_title(drug)
-      ),
-      drug = fct_relevel(drug, "DMSO")
+      adj_count = (value + 1) / 20,
+      panel = str_to_title(panel) |>
+        factor(c("Bosutinib", "Galunisertib", "Gal. + Bos.", "Saracatinib"))
     )
 }
 
 fig(tw)
+
+
+tt <- fil |>
+  select(-value) |>
+  pivot_wider(names_from = name, values_from = adj_count) |>
+  tapply(~panel, \(x) tidy(t.test(x$`+`, x$`-`, paired = TRUE, data = x))) |>
+  array2DF()
+

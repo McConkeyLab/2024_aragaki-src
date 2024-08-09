@@ -12,7 +12,7 @@ fig <- function(data) {
   d <- prep_data(data)
 
   plot <- ggplot(d, aes(drug, adj_count, group = cell_line)) +
-    facet_grid(~clade, scale = "free_x", space = "free_x") +
+    facet_grid(~consensus, scale = "free_x", space = "free_x") +
     geom_line(linewidth = 0.2) +
     geom_text_repel(
       aes(label = label),
@@ -22,10 +22,10 @@ fig <- function(data) {
       min.segment.length = 0.1,
       size = 2,
       max.time = 10, max.iter = 1e6,
-      force = 6,
-      seed = 3
+      force = 15,
+      seed = 12
     ) +
-    geom_point(aes(color = drug)) +
+    geom_point(aes(color = drug), shape = 16, alpha = 0.75) +
     scale_y_log10() +
     labs(y = "Cells/hr", color = "Condition", tag = "C") +
     custom_ggplot +
@@ -34,11 +34,11 @@ fig <- function(data) {
       axis.title.x = element_blank(),
       panel.grid.major.x = element_blank()
     ) +
-  coord_cartesian(x = c(1, 2), clip = "off")
+    coord_cartesian(x = c(1, 2), clip = "off")
 
   ggsave(
     "02_figures/04-c.png", plot,
-    width = 6, height = 2, units = "in", dpi = 500
+    width = 3.5, height = 2, units = "in", dpi = 500
   )
 }
 
@@ -58,7 +58,7 @@ prep_data <- function(data) {
   filtered |>
     summarize(
       adj_count = mean((count + 1) / time_hr),
-      .by = c(cell_line, drug, clade)
+      .by = c(cell_line, drug, consensus)
     ) |>
     mutate(
       # Only label one side
@@ -68,25 +68,17 @@ prep_data <- function(data) {
         drug == "dmso" ~ "DMSO",
         drug == "bosutinib" ~ "Bosutinib"
       ),
-      drug = fct_relevel(drug, "DMSO"),
-      clade = case_when(
-        clade == "Luminal Papillary" ~ "LP",
-        clade == "Epithelial Other" ~ "Ep. Other",
-        clade == "Mesenchymal" ~ "Mes.",
-        .default = NA
-      ),
-      clade = factor(clade, c("LP", "Ep. Other", "Mes."))
+      drug = fct_relevel(drug, "DMSO")
     )
 }
 
 test <- function(data) {
-  by_exp |>
+  data |>
     select(-label) |>
     pivot_wider(names_from = drug, values_from = adj_count) |>
-    filter(clade != "Mes.") |>
-    mutate(clade = as.character(clade)) |>
+    mutate(consensus = as.character(consensus)) |>
     tapply(
-      ~clade, \(x) tidy(t.test(x = x$dmso, y = x$bosutinib, paired = TRUE))
+      ~consensus, \(x) tidy(t.test(x = x$DMSO, y = x$Bosutinib, paired = TRUE))
     )
 }
 

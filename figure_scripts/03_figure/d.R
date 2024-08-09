@@ -4,18 +4,21 @@ library(GSVA)
 library(ggsci)
 library(tidyverse)
 library(broom)
+tar_make(script = "R/targets/cell_rna.R", store = "stores/cell_rna/")
 
 source("R/functions/common.R")
 
-fig <- function() {
-  data <- prep_data()
+cell_rna <- tar_read(cell_rna, store = "stores/cell_rna/")
+
+fig <- function(cell_rna) {
+  data <- prep_data(cell_rna)
   tt <- test(data)
   aov_sig <- filter(tt, aov_p_adj < 0.05)
   data <- semi_join(data, aov_sig, by = "signature") |>
     mutate(signature = str_replace_all(signature, " ", "\n"))
   aov_sig <- mutate(aov_sig, signature = str_replace_all(signature, " ", "\n"))
 
-  plot <- ggplot(data, aes(clade, value, color = clade)) +
+  plot <- ggplot(data, aes(consensus, value, color = consensus)) +
     geom_jitter(shape = 16, size = 0.75, alpha = 0.75, width = 0.2) +
     facet_grid(~signature) +
     geom_segment(
@@ -37,7 +40,7 @@ fig <- function() {
       legend.position = "bottom"
     ) +
     coord_cartesian(ylim = c(NA, 1)) +
-    labs(color = "Clade", y = "Score", tag = "D")
+    labs(color = "Consensus", y = "Score", tag = "D")
 
   ggsave(
     "02_figures/03-d.png", plot,
@@ -45,12 +48,12 @@ fig <- function() {
   )
 }
 
-prep_data <- function() {
-  do_gsva(prep_hallmarks(), "rlog_norm_counts") |>
+prep_data <- function(cell_rna) {
+  do_gsva(cell_rna, prep_hallmarks(), "rlog_norm_counts") |>
     wrangle()
 }
 
-do_gsva <- function(sigs, assay_name) {
+do_gsva <- function(cell_rna, sigs, assay_name) {
   cell_rna |>
     gsvaParam(sigs, assay = assay_name, kcdf = "Gaussian") |>
     gsva()
@@ -74,20 +77,13 @@ wrangle <- function(data) {
   assay(data) |>
     as_tibble(rownames = "signature") |>
     pivot_longer(-signature, names_to = "cell") |>
-    left_join(as_tibble(colData(data)), by = "cell") |>
-    mutate(
-      clade = factor(
-        clade,
-        levels = c("Luminal Papillary", "Epithelial Other", "Mesenchymal", "Unknown"),
-        labels = c("LP", "Ep. Other", "Mes.", "Unk")
-      )
-    )
+    left_join(as_tibble(colData(data)), by = "cell")
 }
 
 test <- function(data) {
-  aov <- tapply(data, ~signature, \(x) tidy(aov(value ~ clade, x))) |>
+  aov <- tapply(data, ~signature, \(x) tidy(aov(value ~ consensus, x))) |>
     array2DF() |>
-    filter(term == "clade") |>
+    filter(term == "consensus") |>
     mutate(
       aov_p_adj = p.adjust(p.value, method = "BH"),
       aov_stars = starify(aov_p_adj)
@@ -118,16 +114,16 @@ test <- function(data) {
 }
 
 t_fun <- function(data) {
-  lp_v_e <- t.test(value ~ clade, filter(data, clade %in% c("LP", "Ep. Other"))) |>
+  lp_v_e <- t.test(value ~ consensus, filter(data, consensus %in% c("LP", "BS"))) |>
     tidy() |>
     mutate(test = "lp_v_e")
-  m_v_e <- t.test(value ~ clade, filter(data, clade %in% c("Mes.", "Ep. Other"))) |>
+  m_v_e <- t.test(value ~ consensus, filter(data, consensus %in% c("NE", "BS"))) |>
     tidy() |>
     mutate(test = "m_v_e")
-  lp_v_m <- t.test(value ~ clade, filter(data, clade %in% c("LP", "Mes."))) |>
+  lp_v_m <- t.test(value ~ consensus, filter(data, consensus %in% c("LP", "NE"))) |>
     tidy() |>
     mutate(test = "lp_v_m")
   bind_rows(lp_v_e, m_v_e, lp_v_m)
 }
 
-fig()
+fig(cell_rna)

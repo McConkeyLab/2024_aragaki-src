@@ -3,41 +3,24 @@ library(ggsci)
 library(tidyverse)
 library(classifyBLCA)
 library(DESeq2)
+tar_make(script = "R/targets/cell_rna.R", store = "stores/cell_rna/")
 
 source("R/functions/common.R")
 
-fig <- function() {
-  consensus <- classify_blca(
-    assay(cell_rna, 2), gene_id = "hgnc", classifier = "consensus"
-  )
+cell_rna <- tar_read(cell_rna, store = "stores/cell_rna/")
 
-  cd <- as_tibble(colData(cell_rna))
-
-  both <- left_join(consensus, cd, by = c(sample = "cell")) |>
-    filter(nearest == class) |>
-    mutate(
-      class = factor(
-        class,
-        c("lum_p", "ba_sq", "ne_like"),
-        c("LP", "BS", "NE")
-      ),
-      clade = factor(
-        clade,
-        c("Luminal Papillary", "Epithelial Other", "Mesenchymal", "Unknown"),
-        c("LP", "Ep.", "Mes.", "Unk.")
-      )
-    )
-  plot <- ggplot(both, aes(clade, fill = class)) +
+fig <- function(cell_rna) {
+  plot <- ggplot(colData(cell_rna), aes(clade, fill = consensus)) +
     geom_bar() +
     scale_fill_npg() +
     theme_minimal() +
     custom_ggplot +
-    labs(x = "Clade", fill = "TCGA", tag = "C")
+    labs(x = "Clade", fill = "Consensus", y = "Count", tag = "C")
 
   ggsave(
     "02_figures/03-c.png", plot,
-    width = 2.5, height = 2.5, units = "in", dpi = 500
+    width = 3, height = 2.5, units = "in", dpi = 500
   )
 }
 
-fig()
+fig(cell_rna)

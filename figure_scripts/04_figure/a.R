@@ -9,8 +9,8 @@ tw <- tar_read(tw, store = "stores/tw/")
 
 fig <- function(data) {
   d <- prep_data(data)
-  tt <- test(d)
   summary <- summarize_data(d)
+  tt <- test(summary)
 
   plot <- ggplot(d, aes(cell_line, adj_count)) +
     geom_pointrange(data = summary, aes(y = Mean, ymin = Lower, ymax = Upper, color = consensus)) +
@@ -35,7 +35,7 @@ fig <- function(data) {
     geom_text(
       data = tt,
       aes(x = label_x, y = label_y, label = stars),
-      vjust = 0.3,
+      vjust = -0.3,
       size = 3,
       inherit.aes = FALSE
     ) +
@@ -97,7 +97,7 @@ make_test_annotation <- function() {
     group_1 = c("lp", "lp", "eo"),
     group_2 = c("eo", "mes", "mes"),
     label_x = c(6.5, 8.5, 11),
-    label_y = c(1000, 30000, 5000)
+    label_y = c(1000, 20000, 3000)
   )
   left_join(annot_coords, v_segs) |>
     left_join(top_seg) |>
@@ -105,13 +105,13 @@ make_test_annotation <- function() {
 }
 
 t_fun <- function(data) {
-  lp_v_e <- t.test(adj_count ~ consensus, filter(data, consensus %in% c("LP", "BS"))) |>
+  lp_v_e <- t.test(Mean ~ consensus, filter(data, consensus %in% c("LP", "BS"))) |>
     tidy() |>
     mutate(group_1 = "lp", group_2 = "eo")
-  m_v_e <- t.test(adj_count ~ consensus, filter(data, consensus %in% c("NE", "BS"))) |>
+  m_v_e <- t.test(Mean ~ consensus, filter(data, consensus %in% c("NE", "BS"))) |>
     tidy() |>
     mutate(group_1 = "eo", group_2 = "mes")
-  lp_v_m <- t.test(adj_count ~ consensus, filter(data, consensus %in% c("LP", "NE"))) |>
+  lp_v_m <- t.test(Mean ~ consensus, filter(data, consensus %in% c("LP", "NE"))) |>
     tidy() |>
     mutate(group_1 = "lp", group_2 = "mes")
   bind_rows(lp_v_e, m_v_e, lp_v_m)
