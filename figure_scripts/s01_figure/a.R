@@ -17,7 +17,7 @@ fig <- function(data) {
     geom_point(aes(color = name), shape = 16, alpha = 0.75) +
     facet_grid(cell_line ~ panel) +
     scale_y_log10() +
-    geom_text(data = tt, aes(x, y, label = stars, group = NULL)) +
+    geom_text(data = tt, aes(x, y, label = stars, group = NULL), size = tt$size) +
     custom_ggplot +
     labs(y = "Cells/hr", tag = "A") +
     theme(
@@ -25,7 +25,7 @@ fig <- function(data) {
       axis.title.x = element_blank(),
       panel.grid.major.x = element_blank()
     ) +
-    coord_cartesian(clip = "off")
+    coord_cartesian(ylim = c(NA, 100), clip = "off")
   ggsave(
     "02_figures/s01-a.png", plot,
     width = 4, height = 2, units = "in", dpi = 500
@@ -59,7 +59,8 @@ prep_data <- function(data) {
       adj_count = (value + 1) / 20,
       cell_line = str_to_upper(cell_line),
       panel = str_to_title(panel) |>
-        factor(c("Bosutinib", "Galunisertib", "Gal. + Bos.", "Saracatinib"))
+        paste0("\n") |>
+        factor(c("Bosutinib\n", "Galunisertib\n", "Gal. + Bos.\n", "Saracatinib\n"))
     )
 }
 
@@ -73,8 +74,9 @@ test <- function(data) {
     separate(panel_line, into = c("panel", "cell_line"), sep = "_") |>
     mutate(
       stars = starify(p.value),
+      size = if_else(stars == "NS", 2, 5),
       x = 1.5,
-      y = 200
+      y = if_else(stars == "NS", 150, 100)
     )
 }
 
