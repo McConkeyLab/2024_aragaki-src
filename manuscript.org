@@ -156,3 +156,10 @@ Immunohistochemical staining and quantitative PCR confirmed sustained SRC knockd
 Consistent with the in vitro findings, SRC knockdown caused decreased proliferation in the UM-UC6 metastases but had no effect on proliferation in RT112, and knockdown had no measurable effect on proliferation in either model (Figure 6).
 
 * DISCUSSION
+* TASKS [0/2]
+** TODO Saracatinib, Bosutinib, Galunisertib WB
+- UC6, RT112
+- SRC, FAK, pSRC, pFAK, SMAD2, pSMAD2
+- Timepoint?
+- 1uM
+** TODO UC6, RT112 SRC iKD doxycycline timecourse (RNA, protein)
