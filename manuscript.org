@@ -26,7 +26,7 @@ Subconfluent cells were trypsinized, resuspended in serum containing media, cent
 Subconfluent cells were harvested in RIPA buffer containing protease (Complete Mini- 11836153001) and phosphatase (PhosSTOP-04906837001) inhibitors purchased from Roche. Following protein quantification by BCA assay, samples were diluted and boiled in 2x 2-Mercaptoethanol containing Laemmli sample buffer. SDS-PAGE gel electrophoresis was run at 100 volts for 1.5 hours in Tris-Glycine-SDS buffer, followed by transfer onto nitrocellulose membrane in Tris-Glycine buffer 20% methanol overnight at 30 volts. Membranes were cut into strips by molecular weight and blocked in 5% milk PBS for 1 hour. Membranes were incubated for 2 hours or overnight in primary antibody (1:1000 or 1:5000 dilution, 1% milk PBS), washed in PBS-T (PBS 0.1% Tween 20), and incubated in secondary antibody for 1 hour (1:5000 dilution, 1% milk PBS). In instances where multiple proteins of similar molecular weight were probed, identical but separate blot were performed at the same time. Loading control (Actin) was examined on previously probed blots. Primary antibodies were purchased from Cell Signaling including Src polyclonal (#2108, RRID:AB_331137, diluted 1:1000), Src monoclonal (#2123, RRID:AB_2106047, diluted 1:1000), pY416 Src (#6943, RRID:AB_10013641, diluted 1:1000), p130CAS (#13846, RRID:AB_2798328, diluted 1:1000), pY410 p130CAS (#4011, RRID:AB_2274823, diluted 1:1000), Smad2 (#3122, RRID:AB_823638, diluted 1:1000), and pS465/468 Smad2 (#3108 RRID:AB_490941, diluted 1:1000). Additional primary antibodies were purchased from ThermoFisher including FAK (#AHO0502, RRID:AB_2536313, diluted 1:1000) and pY861 FAK (#44-626G, RRID:AB_2533703, diluted 1:1000) or Sigma-Aldrich including Actin (#A2066, RRID:AB_476693, diluted 1:5000). Goat anti-Rabbit secondary antibody was purchased from Biorad (#1706515, RRID:AB_2617112, diluted 1:5000) and Rabbit anti-Mouse secondary antibody was purchased from ThermoFisher (#61-6520, RRID:AB_2533933, diluted 1:5000).
 ** TODO Experimental metastasis
 ** TODO Statistical analysis
-* RESULTS [4/9]
+* RESULTS [5/9]
 ** DONE FIGURE 1 [4/4]
 CLOSED: [2024-07-25 Thu 21:58]
 *** DONE A
@@ -134,9 +134,11 @@ Exposure of UM-UC6 to the combination of galunisertib plus bosutinib did not inh
 ** TODO SUPPLEMENTAL FIGURE 2
 Effects of conditional SRC knockdown. The effects of saracatinib on SMAD phosphorylation raised concerns about relying on it to identify the direct mechanistic consequences of SRC inhibition. We therefore stably transduced the RT112 and UM-UC6 cells with a lentiviral construct encoding a doxycycline-inducible shRNA construct targeting SRC (or a non-targeting control virus) to test the effects of conditional knockdown on whole transcriptome RNA expression, migration, and metastasis. Preliminary experiments confirmed that doxycycline exposure led to time-dependent suppression of SRC expression in both cell lines (Supplemental Figure 2).
 
-** TODO SUPPLEMENTAL FIGURE 3
+** DONE SUPPLEMENTAL FIGURE 3
+CLOSED: [2024-08-12 Mon 11:15]
 Doxycycline also caused some growth inhibition in the UM-UC6 cells but had no effect on RT112 (Supplemental Figure 3).
-
+*** NOTE
+Debatable. Depends on how wishfully you look at these plots. It certainly doesn't look like RT112 has a sensitivity that is specific to the 004 though. It's not super clear cut though.
 ** TODO FIGURE 5 [0/2]
 *** TODO
 Whole transcriptome RNA expression profiling and GSEA revealed that SRC knockdown increased EMT pathway gene expression in RT112 but decreased expression in UM-UC6, contrary to expectations (Figure 5).

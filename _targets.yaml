@@ -13,3 +13,6 @@ tw:
 cell_rna:
   script: R/targets/cell_rna.R
   store: stores/cell_rna
+mtt:
+  script: R/targets/mtt.R
+  store: stores/mtt
