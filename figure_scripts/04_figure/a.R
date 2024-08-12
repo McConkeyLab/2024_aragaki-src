@@ -46,6 +46,7 @@ fig <- function(data) {
     theme(
       axis.title.x = element_blank(),
       axis.text.x = element_text(hjust = 0, vjust = 0.5, angle = -90),
+      panel.grid.major.x = element_blank(),
       plot.margin = unit(c(2.5, 0, 0, 0), "lines"),
       plot.tag.position = c(0, 1.25),
       plot.tag = element_text(hjust = 0)

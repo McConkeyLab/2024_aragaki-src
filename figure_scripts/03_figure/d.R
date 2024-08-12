@@ -19,8 +19,9 @@ fig <- function(cell_rna) {
   aov_sig <- mutate(aov_sig, signature = str_replace_all(signature, " ", "\n"))
 
   plot <- ggplot(data, aes(consensus, value, color = consensus)) +
+    geom_hline(yintercept = 0, linewidth = 0.2) +
     geom_jitter(shape = 16, size = 0.75, alpha = 0.75, width = 0.2) +
-    facet_grid(~signature) +
+    facet_grid(~signature, switch = "x") +
     geom_segment(
       data = aov_sig, aes(x = x, xend = xend, y = y, yend = yend),
       inherit.aes = FALSE
@@ -37,9 +38,10 @@ fig <- function(cell_rna) {
       axis.text.x = element_blank(),
       axis.ticks.x = element_blank(),
       axis.title.x = element_blank(),
-      legend.position = "bottom"
+      strip.text = element_text(vjust = 1),
+      legend.position = "bottom",
     ) +
-    coord_cartesian(ylim = c(NA, 1)) +
+    coord_cartesian(ylim = c(-0.6, 0.6), clip = "off") +
     labs(color = "Consensus", y = "Score", tag = "D")
 
   ggsave(
@@ -103,9 +105,9 @@ test <- function(data) {
       x = match(str_extract(test, "^[^_]*"), c("lp", "e", "m")),
       xend = match(str_extract(test, "[^_]*$"), c("lp", "e", "m")),
       y = case_when(
-        x == 1 & xend == 2 ~ 0.6,
-        x == 1 & xend == 3 ~ 0.8,
-        x == 3 ~ 0.5
+        x == 1 & xend == 2 ~ 0.7,
+        x == 1 & xend == 3 ~ 1,
+        x == 3 ~ 0.6
       ),
       yend = y,
       label_y = if_else(tt_stars == "NS", y, y - 0.075),

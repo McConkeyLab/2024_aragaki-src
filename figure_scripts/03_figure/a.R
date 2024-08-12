@@ -57,7 +57,7 @@ fig <- function() {
     set("branches_lwd", 2) |>
     set("labels_cex", 1) |>
     plot(axes = FALSE, horiz = TRUE)
-  mtext("A", side = 3, line = -1, at = 300, cex = 2)
+  mtext("A", side = 3, line = -2, at = 300, cex = 2.5)
   dev.off()
   "02_figures/03-a.png"
 }
