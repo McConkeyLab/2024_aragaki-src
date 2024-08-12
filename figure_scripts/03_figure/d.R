@@ -4,6 +4,7 @@ library(GSVA)
 library(ggsci)
 library(tidyverse)
 library(broom)
+library(DESeq2)
 tar_make(script = "R/targets/cell_rna.R", store = "stores/cell_rna/")
 
 source("R/functions/common.R")
