@@ -119,19 +119,19 @@ I don't think it's worthwhile including saracatinib, as it has demonstrated sign
 **** NOTE
 I think I'm going to need help with a few other cell lines and replicates for these figures
 
-** TODO SUPPLEMENTAL FIGURE 1 [0/4]
-*** TODO
-In one of the cell lines (UM-UC6, GU molecular subtype), saracatinib inhibited transwell migration but bosutinib did not (Supplemental Figure 1).
+** HOLD SUPPLEMENTAL FIGURE 1 [1/2]
+*** DONE
+CLOSED: [2024-08-09 Fri 14:06]
+In one of the cell lines (UM-UC6, GU molecular subtype), saracatinib inhibited transwell migration but bosutinib did not (Supplemental Figure 1). Galunisertib inhibited migration in the UM-UC6 but not the RT112 cells (Supplemental Figure 1).
 
-*** TODO
-Inhibition of TGFBR1 is a known off-target effect of saracatinib that is not shared by bosutinib (ref). We therefore compared the effects of galunisertib (a chemical TGFB1 inhibitor), saracatinib, and bosutinib on migration in the UM-UC6 cells. Saracatinib and bosutinib but not galunisertib decreased phosphorylation of SRC and its downstream target, FAK, whereas galunisertib but not saracatinib or bosutinib decreased phosphorylation of the TGFBR1 substrate, SMAD2 (Supplemental Figure 1).
+Inhibition of TGFBR1 is a known off-target effect of saracatinib that is not shared by bosutinib (ref). We therefore compared the effects of galunisertib (a chemical TGFB1 inhibitor), saracatinib, and bosutinib on migration in the UM-UC6 cells.
 
-*** TODO
-Galunisertib inhibited migration in the UM-UC6 but not the RT112 cells (Supplemental Figure 1).
-
-*** TODO
 Exposure of UM-UC6 to the combination of galunisertib plus bosutinib did not inhibit migration significantly more than exposure to galunisertib alone (Supplemental Figure 1).
-** TODO SUPPLEMENTAL FIGURE 2
+
+*** HOLD
+Saracatinib and bosutinib but not galunisertib decreased phosphorylation of SRC and its downstream target, FAK, whereas galunisertib but not saracatinib or bosutinib decreased phosphorylation of the TGFBR1 substrate, SMAD2 (Supplemental Figure 1).
+
+** HOLD SUPPLEMENTAL FIGURE 2
 Effects of conditional SRC knockdown. The effects of saracatinib on SMAD phosphorylation raised concerns about relying on it to identify the direct mechanistic consequences of SRC inhibition. We therefore stably transduced the RT112 and UM-UC6 cells with a lentiviral construct encoding a doxycycline-inducible shRNA construct targeting SRC (or a non-targeting control virus) to test the effects of conditional knockdown on whole transcriptome RNA expression, migration, and metastasis. Preliminary experiments confirmed that doxycycline exposure led to time-dependent suppression of SRC expression in both cell lines (Supplemental Figure 2).
 
 ** DONE SUPPLEMENTAL FIGURE 3
