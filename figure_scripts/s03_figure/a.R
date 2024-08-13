@@ -18,7 +18,10 @@ fig <- function(data) {
     custom_ggplot +
     labs(color = "Cell Line Type", x = "[Drug]", y = "Relative OD", tag = "A") +
     theme(panel.spacing.x = unit(1, "line"))
-  ggsave("02_figures/s03-a.png", plot, width = 5, height = 3, units = "in")
+  ggsave(
+    "02_figures/s03-a.png", plot,
+    width = 5, height = 3, units = "in", dpi = 500
+  )
   "02_figures/s03-a.png"
 }
 
