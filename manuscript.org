@@ -158,16 +158,19 @@ Doxycycline inhibited migration in the luminal papillary RT112 cells but increas
 **** NOTE
 Not a significant decrease in RT112
 
-** TODO FIGURE 6 [0/4]
-*** TODO
+** TODO FIGURE 6 [1/5]
+*** HOLD
 To examine the effects of SRC inhibition in vivo, we pretreated the RT112 and UM-UC6 cells with doxycycline before inoculating them into the tail veins of immunodeficient NSG mice housed with or without doxycycline in their drinking water. RT112 produced metastases in the lungs, liver, and spine, resulting in failure to void and hind leg paralysis, whereas UM-UC6 caused lymph node and lung metastases (Figure 6).
-*** TODO
-SRC knockdown extended DSS in mice inoculated with UM-UC6 but had no effect in animals with RT112 metastases, and it did not affect the sites of metastasis in either model (Figure 6).
-*** TODO
-Immunohistochemical staining and quantitative PCR confirmed sustained SRC knockdown in the metastases (Figure 6).
-*** TODO
-Consistent with the in vitro findings, SRC knockdown caused decreased proliferation in the UM-UC6 metastases but had no effect on proliferation in RT112, and knockdown had no measurable effect on proliferation in either model (Figure 6).
+*** DONE
+CLOSED: [2024-08-13 Tue 11:15]
+SRC knockdown extended DSS in mice inoculated with UM-UC6 but had no effect in animals with RT112 metastases,
 
+*** HOLD
+and it did not affect the sites of metastasis in either model (Figure 6).
+*** HOLD
+Immunohistochemical staining and quantitative PCR confirmed sustained SRC knockdown in the metastases (Figure 6).
+*** HOLD
+Consistent with the in vitro findings, SRC knockdown caused decreased proliferation in the UM-UC6 metastases but had no effect on proliferation in RT112, and knockdown had no measurable effect on proliferation in either model (Figure 6).
 * DISCUSSION
 * TASKS [0/2]
 ** TODO Saracatinib, Bosutinib, Galunisertib WB
