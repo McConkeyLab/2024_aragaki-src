@@ -5,6 +5,14 @@ starify <- function(pval) {
             .default = "NS")
 }
 
+format_pval <- function(pval) {
+  ifelse(
+    pval > 0.05,
+    "NS",
+    paste("P =", signif(pval, 1) |> format())
+  )
+}
+
 custom_ggplot <- list(
   theme_minimal(),
   scale_color_npg(),

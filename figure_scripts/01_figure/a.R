@@ -14,13 +14,14 @@ fig <- function(data) {
       aes(color = muscle_invasive)
     ) +
     stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.1) +
-    geom_text(data = tt, aes(x, y, label = label), size = 5) +
+    geom_text(data = tt, aes(x, y, label = label), size = 3) +
     # View, but not error bar, excludes outlier
     coord_cartesian(ylim = c(-2, NA)) +
     labs(x = NULL, y = "SRC", tag = "A") +
     custom_ggplot +
     theme(
       legend.position = "none",
+      plot.tag.location = "plot",
       panel.grid.major.x = element_blank()
     )
 
@@ -32,7 +33,7 @@ fig <- function(data) {
 
 test <- function(data) {
   tt <- t.test(formula = src ~ muscle_invasive, data = data)
-  data.frame(label = starify(tt$p.value), x = 1.5, y = max(data$src))
+  data.frame(label = format_pval(tt$p.value), x = 1.5, y = max(data$src))
 }
 
 fig(lund)

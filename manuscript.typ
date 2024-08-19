@@ -26,8 +26,14 @@
 
 Kai Aragaki #footnote[Department of Pharmacology, Johns Hopkins School of Medicine, Baltimore, MD, USA] #footnote[Johns Hopkins Greenberg Bladder Cancer Institute, Brady Urological Institute, Johns Hopkins School of Medicine, Baltimore, MD, USA] <brady>, Bryan Wehrenberg  @brady, Yujiro Hayashi @brady, and David J. McConkey @brady #footnote[To whom correspondence should be addressed: dmcconk1\@jh.edu]
 
+
+
 #align(center)[= ABSTRACT]
-Past work in preclinical models of solid tumors implicated SRC in invasion and metastasis, whereas it functioned as an inhibitor of metastasis in bladder cancer. Here we tested the hypothesis that the role of SRC in metastasis is dependent on molecular subtype membership. Analyses of large public datasets demonstrated that SRC mRNA and protein expression is enriched in tumors assigned to the luminal papillary molecular subtype. Using the consensus classifier on RNA expression from 30 cell lines, we noted that chemical SRC antagonists tended to inhibit migration in luminal papillary cells but had little effect in basal/squamous lines. Conditional SRC knockdown inhibited migration in luminal papillary RT112 cells, whereas it increased migration and reduced proliferation in luminal papillary UM-UC6 cells. Regardless, these effects did not affect levels or sites of experimental metastasis _in vivo_. Overall, the results confirm that the effects of SRC inhibition on invasion and migration are heterogeneous and linked to molecular subtype membership. The results have implications for the potential use of SRC pathway inhibitors to block bladder cancer progression in patients.
+#[
+    #show par: set block(spacing: 2em)
+    #set par(leading: 0.4em)
+    Past work in preclinical models of solid tumors implicated SRC in invasion and metastasis, whereas it functioned as an inhibitor of metastasis in bladder cancer. Here we tested the hypothesis that the role of SRC in metastasis is dependent on molecular subtype membership. Analyses of large public datasets demonstrated that SRC mRNA and protein expression is enriched in tumors assigned to the luminal papillary molecular subtype. Using the consensus classifier on RNA expression from 30 cell lines, we noted that chemical SRC antagonists tended to inhibit migration in luminal papillary cells but had little effect in basal/squamous lines. Conditional SRC knockdown inhibited migration in luminal papillary RT112 cells, whereas it increased migration and reduced proliferation in luminal papillary UM-UC6 cells. Regardless, these effects did not affect levels or sites of experimental metastasis _in vivo_. Overall, the results confirm that the effects of SRC inhibition on invasion and migration are heterogeneous and linked to molecular subtype membership. The results have implications for the potential use of SRC pathway inhibitors to block bladder cancer progression in patients.
+]
 
 #show: rest => columns(2, rest)
 
@@ -38,18 +44,23 @@ Bladder cancers are highly heterogeneous in their invasive and metastatic potent
 
 = RESULTS
 
+#figure(
+    grid(
+        columns: 2,
+        rows: (150pt, auto),
+        image("02_figures/01-a.png"),
+        image("02_figures/01-b.png"),
+        grid.cell(
+            colspan: 2,
+            image("02_figures/01-c.png")
+        )
+    ),
+    caption: [*SRC is enriched in less aggressive bladder cancer subtypes.* *A:* SRC expression in the Lund cohort, stratified by muscle invasion. *B:* SRC expression in the UROMOL 2021 cohort, stratified by UROMOL 2021 class. *C:* Pearson correlation between progression score signature and SRC expression. NMI: Non-muscle invasive, MI: Muscle invasive. CI = 95%.]
+) <fig1>
+
 == SRC expression across subtypes
 We first used public bulk mRNA expression profiling datasets to explore whether SRC expression correlated with stage and/or molecular subtype membership. Consistent with previous findings @Fanning_1992, SRC levels were significantly higher in NMIBC relative to MIBC (@fig1, A). SRC levels were additionally elevated in the least aggressive UROMOL subtype (Class 1), but also in the subtype associated with the highest rate of progression (Class 2a) (@fig1, B) @Lindskrog_2021. SRC expression strongly correlated with progression score in Class 1 tumors, (@fig1, D), implying SRC expression may be an avenue for progression.
 
-#figure(
-    grid(
-        columns: (1fr, 1.2fr, 2.5fr),
-        image("02_figures/01-a.png"),
-        image("02_figures/01-b.png"),
-        image("02_figures/01-b_extra.png")
-    ),
-    caption: [*SRC is enriched in less aggressive bladder cancer subtypes.* *A:* SRC expression in the Lund cohort, stratified by muscle invasion. *B* SRC expression in the UROMOL 2021 cohort, stratified by UROMOL 2021 class. *C:* Pearson correlation of signatures used in UROMOL and SRC expression, stratified by class. NMI: Non-muscle invasive, MI: Muscle invasive. \*\*\* p < 0.001, \*\* p < 0.01, \* p < 0.05, NS not significant. CI = 95%.]
-) <fig1>
 
 MIBC showed a similar pattern between subtype aggressiveness and SRC expression, with SRC RNA (@fig2, A) and protein expression (@fig2, B) enriched in the less-aggressive luminal-papillary TCGA subtype.
 
@@ -152,16 +163,23 @@ Subconfluent cells were trypsinized, resuspended in serum containing medium, cen
 
 
 = TODO
-- Mat & Met: experimental mets, statistical analysis
-- Res: Fig2: Check to see if SRC is associated with progression score
-- Res: Figs: export figures at same height
-- Res: Fig3: Deal with ramifications of removing panels
-- All: Calculate EMT and progression scores for all - common thread?
-- Res: Fig MTT: tt between NT and 004 at each dose
-- Res: Fig MTT: Add CI in caption
-- WBs
-- Figures from Yujiro
-- Single timepoint for PCR
+- Results
+    - All
+        - Formatting
+        - Calculate EMT and progression scores for all - common thread?
+        - Use exact (shortened) p-value instead of stars
+    - Progression score SRC correlation - focus on just that signature
+    - Figure 2: Check to see if SRC is associated with progression score
+    - Figure 3: Deal with ramifications of removing panels
+    - MTT
+        - tt between NT and 004 at each dose
+        - Add CI in caption
+    - Western blots
+    - _in vivo_: Figures from Yujiro
+    - KD works: show single timepoint for PCR
+- Mat & Met
+    - Experimental mets
+    - Statistical analysis
 - Discussion
 
 #bibliography("./sources.bib", style: "nature")
