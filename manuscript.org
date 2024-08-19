@@ -1,10 +1,3 @@
-#+title: Heterogeneous effects of Src inhibition on determinants of metastasis in preclinical models of human bladder cancer.
-#+author: Kai Aragaki, Bryan Wehrenberg, Yujiro Hayashi, and David J. McConkey*
-
-Johns Hopkins Greenberg Bladder Cancer Institute, Brady Urological Institute, Johns Hopkins School of Medicine, Baltimore, MD 21287
-
-*To whom correspondence should be addressed: dmcconk1@jh.edu
-
 * ABSTRACT
 Past work in preclinical models of breast cancer and other solid tumors implicated SRC in invasion and metastasis, whereas it functioned as an inhibitor of metastasis in bladder cancer. Here we tested the hypothesis that the role of SRC in metastasis is dependent on molecular subtype membership. Analyses of TCGA and other large public datasets demonstrated that SRC mRNA and protein expression were enriched in tumors assigned to the luminal papillary molecular subtype. Unsupervised hierarchical clustering based on whole transcriptome RNA expression data from a panel of n = 30 human bladder cancer cell lines assigned them to 3 major clusters that corresponded to luminal papillary, genomically unstable, or basal/squamous molecular subtype assignments generated using the Lund or Consensus molecular subtype classifiers, and SRC mRNA expression was also highest in luminal papillary cell lines. Chemical SRC antagonists tended to inhibit migration in luminal papillary cells but increased migration and invasion in basal/squamous lines. Conditional SRC knockdown inhibited migration while upregulating EMT gene expression in luminal papillary RT112 cells, whereas it increased migration while downregulating EMT in genomically unstable UM-UC6 cells. Regardless, these effects did not affect levels or sites of experimental metastasis in vivo. Overall, the results confirm that the effects of SRC inhibition on invasion and migration are heterogeneous and linked to molecular subtype membership. The results have implications for the potential use of SRC pathway inhibitors to block bladder cancer progression in patients.
 (234 words)
@@ -14,111 +7,7 @@ The SRC protooncogene was first identified as the causative factor that mediated
 
 Bladder cancers are known to be highly heterogeneous in terms of their invasive and metastatic potentials. Most bladder cancers are superficial low-grade papillary lesions that are prone to recurrence but rarely progress to become life-threatening and metastatic. However, approximately 20-25% of bladder cancers are muscle-invasive at diagnosis, and about half of patients with muscle-invasive bladder cancer (MIBC) ultimately die of metastatic disease. Bladder cancers can also be grouped into basal and luminal molecular subtypes that are similar to those described in breast cancer. Luminal papillary bladder cancers are associated with activating FGFR3 mutations and fusions are associated with better survival outcomes, whereas basal bladder cancers exhibit features of epithelial-to-mesenchymal transition (EMT) and are associated with invasive and metastatic disease at clinical presentation and shorter disease-specific survival. We wondered whether SRC might play different roles in luminal versus basal bladder cancers. We tested this hypothesis using public human bladder cancer bulk RNA expression datasets and a large panel of human bladder cancer cell lines.
 
-* MATERIALS AND METHODS
-** Chemicals and reagents
-AZD0530 (S1006) and bosutinib (S1014) were purchased from Selleckchem. Galunisertib was purchased from MedChemExpress (HY-13226). All inhibitors were dissolved in DMSO at stock concentrations of 10mM in DMSO and stored at -80 degrees C. Prior to use, each was diluted in culture medium yielding a maximum DMSO concentration of 1%.
-** Cell culture
-All parental cell lines were obtained from the Pathology Core of the Bladder Cancer SPORE at MD Anderson Cancer Center, with the exceptions of T24 and SCABER, which were purchased from the American Type Culture Collection. Cells were cultured as monolayers with Minuimum Essential Medium containing 10% fetal bovine serum (FBS), 1% nonessential amino acids, 1% vitamin solution, 1% Penicillin-Streptomycin solution, and 1% sodium pyruvate. Incubator conditions were maintained at 37 degrees Celsius with humidified, 5% carbon dioxide atmosphere. Cell line identity was confirmed by DNA fingerprinting through the MD Anderson Characterized Cell Line Core and the Johns Hopkins School of Medicine Genetic Resources Core Facility.
-** TODO Generation of conditional knockdown cell lines
-** Transwell migration and invasion assays
-Subconfluent cells were trypsinized, resuspended in serum containing media, centrifuged, washed with PBS, centrifuged, and resupsended in serum free media. 30,000 to 60,000 cells were then seeded into the upper chamber of the transwell in 0.5ml of serum free media. The lower chamber was loaded with 30% fetal bovine serum containing media to establish a chemo-attractant gradient. Migration or invasion was allowed to proceed for 4 to 20 hours. Membranes were then fixed, uninvaded cells wiped away, and remaining cells stained with gentian violet. The entire filter was imaged by light microscopy and all invasion was quantified by counting of all invaded cells using Fiji[13]. 8µm pore Matrigel coated transwells (Corning-354480) and uncoated transwells (Corning-354578) were purchased from Corning. Collagen-1 coated transwells were generated by applying 0.2mg/ml collagen-1 (Corning-354236) in PBS to uncoated transwell filters overnight. Collagen-1 filters were rinsed with PBS and used immediately or stored at 4 degrees Celsius for up to one week.
-** Western blotting
-Subconfluent cells were harvested in RIPA buffer containing protease (Complete Mini- 11836153001) and phosphatase (PhosSTOP-04906837001) inhibitors purchased from Roche. Following protein quantification by BCA assay, samples were diluted and boiled in 2x 2-Mercaptoethanol containing Laemmli sample buffer. SDS-PAGE gel electrophoresis was run at 100 volts for 1.5 hours in Tris-Glycine-SDS buffer, followed by transfer onto nitrocellulose membrane in Tris-Glycine buffer 20% methanol overnight at 30 volts. Membranes were cut into strips by molecular weight and blocked in 5% milk PBS for 1 hour. Membranes were incubated for 2 hours or overnight in primary antibody (1:1000 or 1:5000 dilution, 1% milk PBS), washed in PBS-T (PBS 0.1% Tween 20), and incubated in secondary antibody for 1 hour (1:5000 dilution, 1% milk PBS). In instances where multiple proteins of similar molecular weight were probed, identical but separate blot were performed at the same time. Loading control (Actin) was examined on previously probed blots. Primary antibodies were purchased from Cell Signaling including Src polyclonal (#2108, RRID:AB_331137, diluted 1:1000), Src monoclonal (#2123, RRID:AB_2106047, diluted 1:1000), pY416 Src (#6943, RRID:AB_10013641, diluted 1:1000), p130CAS (#13846, RRID:AB_2798328, diluted 1:1000), pY410 p130CAS (#4011, RRID:AB_2274823, diluted 1:1000), Smad2 (#3122, RRID:AB_823638, diluted 1:1000), and pS465/468 Smad2 (#3108 RRID:AB_490941, diluted 1:1000). Additional primary antibodies were purchased from ThermoFisher including FAK (#AHO0502, RRID:AB_2536313, diluted 1:1000) and pY861 FAK (#44-626G, RRID:AB_2533703, diluted 1:1000) or Sigma-Aldrich including Actin (#A2066, RRID:AB_476693, diluted 1:5000). Goat anti-Rabbit secondary antibody was purchased from Biorad (#1706515, RRID:AB_2617112, diluted 1:5000) and Rabbit anti-Mouse secondary antibody was purchased from ThermoFisher (#61-6520, RRID:AB_2533933, diluted 1:5000).
-** TODO Experimental metastasis
-** TODO Statistical analysis
 * RESULTS [6/9]
-** DONE FIGURE 1 [4/4]
-CLOSED: [2024-07-25 Thu 21:58]
-*** DONE A
-We first used public bulk mRNA expression profiling datasets to explore whether SRC expression correlated with stage and/or molecular subtype membership. Consistent with previous findings (ref), SRC levels were significantly higher in NMIBCs relative to MIBCs (Figure 1).
-
-*** DONE B
-Focusing on NMIBCs, we next explored SRC levels as a function of the UROMOL molecular subtypes. The results revealed that SRC expression was higher in the UROMOL classes 1 and 3 as compared to the more clinically aggressive UROMOL classes 2a and 2b (Figure 1).
-**** NOTE
-This appears not to be correct. Classes 1 and 2a exhibit high and similar levels of expression. 2b and 3 exhibit lower levels of expression.
-There is, however, a strong positive correlation (0.43 rho, 0.44 r) between the uroplakin signature and SRC expression, as well as a negative correlation in CIS signature (-0.309 rho, -0.35 r).
-Src expression is also positively correlated with early cell cycle signature (0.354r, 0.297 rho) and FGFR3 coexpression signature (0.359r, 0.295rho)
-
-*** DONE C
-Finally, we used the UROMOL NMIBC cohort to correlate SRC expression with the Lund taxonomy (ref). SRC levels were significantly higher in Urothelial (Uro) than in the Genomically Unstable (GU) molecular subtype (Figure 1).
-**** NOTE
-While the mean of SRC expression in GU is marginally lower than that in UroA.Prog (which most samples lie), there is no statistically significant difference between the two. There is a statistically significant difference between UroA.Prog and UroC, though (p = 0.0136)
-
-*** DONE D
-Overall, SRC expression was associated with longer recurrence-free survival (Figure 1).
-**** NOTE
-This appears not to be the case. Using a coxph, SRC expression appears to be significantly associated with increased risk of recurrence, even when stratifying by uromol class
-
-** DONE FIGURE 2 [3/3]
-CLOSED: [2024-07-30 Tue 15:32]
-*** DONE
-CLOSED: [2024-07-30 Tue 15:32]
-We next examined the relationship between SRC expression and molecular subtype membership in MIBCs. Overall, SRC expression was associated with longer progression-free and overall survival in TCGA and several other public datasets (Figure 2).
-**** NOTE
-This tends not to be the case. No significant Cox ph except for Neuronal (HR: 0.393)
-*** DONE
-CLOSED: [2024-07-30 Tue 15:32]
-In TCGA, SRC expression was significantly higher in cancers assigned to the luminal papillary subtype as compared with those assigned to the other molecular subtypes (Figure 2).
-**** NOTE
-This is true except for the Luminal subtype
-
-*** DONE
-CLOSED: [2024-07-30 Tue 15:32]
-Analysis of TCGA reverse-phase protein array (RPPA) data confirmed that total and phosphorylated (active) SRC levels were highest in luminal papillary MIBCs (Figure 2).
-**** NOTE
-This is true. It's also true that pY527 are highest, too
-
-** DONE FIGURE 3 [6/6]
-CLOSED: [2024-08-04 Sun 22:43]
-*** DONE
-CLOSED: [2024-07-30 Tue 15:41]
-Differential SRC expression in human cell lines. We next examined whether SRC expression was also heterogeneous in a panel of 30 human bladder cancer cell lines. Unsupervised hierarchical clustering of whole transcriptome RNAseq data separated the lines into 3 major clusters
-
-*** DONE
-CLOSED: [2024-08-02 Fri 12:12]
-that exhibited stepwise differences in SRC expression (Figure 3).
-
-*** DONE
-CLOSED: [2024-08-03 Sat 13:08]
-We applied Consensus and Lund single-sample molecular subtype classifiers (Kamoun ref) to the RNAseq data to assign the cell lines to molecular subtypes (Figure 3).
-**** NOTE
-It seems like David wants to use results from the Lund group. But the other stuff is done
-
-*** DONE
-CLOSED: [2024-07-30 Tue 16:09]
-Cluster 1 was enriched with cell lines that contained activating FGFR3 mutations or fusions and sensitivity to chemical FGFR inhibitors, and most of the lines were assigned to the luminal papillary (Consensus) or Urothelial (Lund) molecular subtypes (Figure 3 and data not shown). Cluster 2 contained a mixture of cell lines assigned to the Lund GU and Lund and Consensus basal/squamous subtypes (Figure 3). They expressed intermediate levels of SRC expression (Figure 3).  Cluster 3 was enriched with basal/squamous cell lines and exhibited the lowest levels of SRC (Figure 3).
-**** NOTE
-Cluster 3 tends to be more basal and NE-like, but the rest holds true at least for consensus
-
-*** DONE
-CLOSED: [2024-08-04 Sun 21:53]
-We then performed gene set enrichment analyses (GSEA) to define the biological characteristics that differentiated the 3 cell line clusters. The results revealed that EMT was lowest cluster 1, intermediate in cluster 2, and highest in cluster 3 (Figure 3).
-**** NOTE
-I'm showing all the significant (by ANOVA) signatures
-
-*** DONE
-CLOSED: [2024-08-04 Sun 22:43]
-The differential EMT levels in the clusters were reflected in differential expression of E-cadherin (CDH1), ZEB1, and ZEB2 (Figure 3).
-** DONE FIGURE 4 [3/3]
-CLOSED: [2024-08-06 Tue 12:04]
-*** DONE
-CLOSED: [2024-08-05 Mon 14:28]
-Baseline levels of 2D invasion and migration correlate inversely with SRC expression. We next explored whether cell line molecular subtype membership correlated with rates of invasion and migration using conventional Boyden chamber assays (ref). The luminal papillary cell lines did not invade through Matrigel basement membrane extracts at all (Figure 4), whereas the GU and “epithelial” BASQ lines assigned to cluster 2 exhibited intermediate and the “mesenchymal” BASQ lines maximal Matrigel invasion (Figure 4).
-**** NOTE
-LP cells did invade, they just did so very poorly
-
-*** DONE
-CLOSED: [2024-08-05 Mon 14:28]
-The luminal papillary lines did display directional migration
-
-*** DONE
-CLOSED: [2024-08-06 Tue 12:04]
-that was inhibited by the chemical Src inhibitors AZD0530 (saracatinib) and bosutinib (Figure 4).  Interestingly, most of the GU and BASQ lines did not display decreased invasion or migration when they were incubated with either drug and several of the lines actually exhibited increased invasion (Figure 4).
-**** NOTE
-I don't think it's worthwhile including saracatinib, as it has demonstrated significant off-target effects in a cell line that is central to downstream analyses
-**** NOTE
-I think I'm going to need help with a few other cell lines and replicates for these figures
-
 ** HOLD SUPPLEMENTAL FIGURE 1 [1/2]
 *** DONE
 CLOSED: [2024-08-09 Fri 14:06]
@@ -152,19 +41,11 @@ One way of going about doing this MIGHT be to do a GSVA and then show score chan
 
 After swishing this one about I'm going to say that this is a challenging hypothesis to support.
 
-*** DONE
-CLOSED: [2024-08-12 Mon 16:44]
-Doxycycline inhibited migration in the luminal papillary RT112 cells but increased migration in UM-UC6 (Figure 5).
-**** NOTE
-Not a significant decrease in RT112
+What about proliferation?
 
 ** TODO FIGURE 6 [1/5]
 *** HOLD
 To examine the effects of SRC inhibition in vivo, we pretreated the RT112 and UM-UC6 cells with doxycycline before inoculating them into the tail veins of immunodeficient NSG mice housed with or without doxycycline in their drinking water. RT112 produced metastases in the lungs, liver, and spine, resulting in failure to void and hind leg paralysis, whereas UM-UC6 caused lymph node and lung metastases (Figure 6).
-*** DONE
-CLOSED: [2024-08-13 Tue 11:15]
-SRC knockdown extended DSS in mice inoculated with UM-UC6 but had no effect in animals with RT112 metastases,
-
 *** HOLD
 and it did not affect the sites of metastasis in either model (Figure 6).
 *** HOLD
