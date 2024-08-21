@@ -2,6 +2,7 @@ library(ggsci)
 library(tidyverse)
 library(bladdr)
 library(readxl)
+library(broom)
 
 source("R/functions/common.R")
 
@@ -38,7 +39,7 @@ fig <- function() {
     mutate(value = ifelse(value < 0.0001, 0.0001, value)) |>
     pivot_wider()
 
-  plot <- ggplot(mets, aes(dox, mets_to_lung_ratio + 0.0001, color = dox)) +
+  plot <- ggplot(d, aes(dox, mets_to_lung_ratio + 0.0001, color = dox)) +
     facet_grid(~type) +
     scale_y_log10() +
     geom_jitter(width = 0.1, height = 0, alpha = 0.5, shape = 16, size = 0.5) +
