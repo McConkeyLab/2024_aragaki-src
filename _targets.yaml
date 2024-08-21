@@ -16,3 +16,6 @@ cell_rna:
 mtt:
   script: R/targets/mtt.R
   store: stores/mtt
+in_vivo:
+  script: R/targets/in_vivo.R
+  store: stores/in_vivo
