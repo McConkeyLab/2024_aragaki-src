@@ -27,7 +27,7 @@ fig <- function(data) {
     ) +
     geom_point(aes(color = drug), shape = 16, alpha = 0.75) +
     scale_y_log10() +
-    labs(y = "Cells/hr", color = "Condition", tag = "C") +
+    labs(y = "Cells/hr", color = "Condition") +
     custom_ggplot +
     theme(
       axis.text.x = element_blank(),
@@ -38,7 +38,7 @@ fig <- function(data) {
 
   ggsave(
     "02_figures/04-c.png", plot,
-    width = 3.5, height = 2, units = "in", dpi = 500
+    width = 3.5, height = 1.8, units = "in", dpi = 500
   )
 }
 

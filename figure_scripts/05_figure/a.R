@@ -17,9 +17,9 @@ fig <- function(data) {
     geom_point(aes(color = name), shape = 16, alpha = 0.75) +
     facet_grid(~cell_line) +
     scale_y_log10() +
-    geom_text(data = tt, aes(x, y, label = stars, group = NULL), size = tt$size) +
+    geom_text(data = tt, aes(x, y, label = stars, group = NULL), size = 3) +
     custom_ggplot +
-    labs(y = "Cells/hr", tag = "A") +
+    labs(y = "Cells/hr") +
     theme(
       legend.position = "none",
       axis.title.x = element_blank(),
@@ -56,12 +56,7 @@ test <- function(data) {
     pivot_wider(names_from = name, values_from = adj_count) |>
     tapply(~cell_line, \(x) tidy(t.test(x$`+`, x$`-`, paired = TRUE, data = x))) |>
     array2DF() |>
-    mutate(
-      stars = starify(p.value),
-      size = if_else(stars == "NS", 4, 6),
-      x = 1.5,
-      y = if_else(stars == "NS", 1000, 800)
-    )
+    mutate(stars = format_pval(p.value), x = 1.5, y = 1000)
 }
 
 fig(tw)

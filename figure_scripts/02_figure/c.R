@@ -27,13 +27,16 @@ fig <- function(data) {
       inherit.aes = FALSE,
       size = 3
     ) +
-    facet_wrap(~peptide, scales = "free_x") +
+    facet_wrap(~peptide, strip.position = "bottom") +
     custom_ggplot +
     theme(
       legend.position = "none",
-      panel.grid.major.x = element_blank()
+      panel.grid.major.x = element_blank(),
+      plot.tag.location = "plot",
+      plot.margin = unit(c(2.5, 0, 0, 0), "lines")
     ) +
-    labs(y = "Expression", x = "TCGA", tag = "C", color = "Subtype")
+    coord_cartesian(ylim = c(NA, 3), clip = "off") +
+    labs(y = "Expression", x = NULL, tag = "B", color = "Subtype")
   ggsave(
     "02_figures/02-c.png", plot,
     width = 4, height = 2.5, units = "in", dpi = 500
@@ -47,7 +50,7 @@ test <- function(data) {
     lapply(\(x) sc(x, "subtype", "LP")) |>
     bind_rows(.id = "peptide") |>
     mutate(
-      stars = starify(p.value),
+      stars = format_pval(p.value),
       subtype = factor(subtype, levels = levels)
     ) |>
     arrange(subtype) |>
@@ -55,8 +58,7 @@ test <- function(data) {
       x = 1,
       xend = rep(seq_len(4), each = 3) + 1,
       y = rep(c(2.5, 3, 3.5, 4), each = 3),
-      # "NS" vs "***" heights are different
-      label_y = if_else(stars == "NS", y, y - 0.2),
+      label_y = y,
       mid = (x + xend) / 2
     )
 }

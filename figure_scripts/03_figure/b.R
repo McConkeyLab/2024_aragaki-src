@@ -1,6 +1,7 @@
 library(cellebrate)
 library(tidyverse)
 library(ggsci)
+library(DESeq2)
 library(broom)
 tar_make(script = "R/targets/cell_rna.R", store = "stores/cell_rna/")
 
@@ -34,11 +35,14 @@ fig <- function(cell_rna) {
     custom_ggplot +
     theme(
       legend.position = "none",
-      panel.grid.major.x = element_blank()
+      panel.grid.major.x = element_blank(),
+      plot.tag.location = "plot",
+      plot.margin = unit(c(2, 0, 0, 0), "lines")
+
     ) +
     scale_x_discrete(labels = c("LP", "BS", "NE")) +
-    coord_cartesian(y = c(NA, 15.2)) +
-    labs(x = "Consensus", y = "SRC", tag = "B")
+    coord_cartesian(y = c(NA, 14), clip = "off") +
+    labs(x = NULL, y = "SRC", tag = "A")
 
   ggsave(
     "02_figures/03-b.png", plot,
@@ -56,12 +60,12 @@ test <- function(data) {
     mutate(consensus = factor(consensus, c("BS", "NE"))) |>
     arrange(consensus) |>
     mutate(
-      stars = starify(p.value),
+      stars = format_pval(p.value),
       x = 1,
       xend = seq_len(n()) + 1,
       y = c(14.5, 15),
       # "NS" vs "***" heights are different
-      label_y = if_else(stars == "NS", y, y - 0.2),
+      label_y = y,
       mid = (x + xend) / 2
     )
 }

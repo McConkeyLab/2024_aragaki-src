@@ -26,12 +26,15 @@ fig <- function(data) {
       inherit.aes = FALSE,
       size = 3
     ) +
-    labs(y = "SRC", x = "TCGA", tag = "B") +
+    labs(y = "SRC", x = NULL, tag = "A") +
     custom_ggplot +
     theme(
       legend.position = "none",
-      panel.grid.major.x = element_blank()
-    )
+      plot.tag.location = "plot",
+      panel.grid.major.x = element_blank(),
+      plot.margin = unit(c(2.5, 0, 0, 0), "lines")
+    ) +
+    coord_cartesian(ylim = c(NA, 16), clip = "off")
   ggsave(
     "02_figures/02-b.png", plot,
     width = 2, height = 2.5, units = "in", dpi = 500
@@ -46,12 +49,11 @@ test <- function(data) {
     array2DF() |>
     arrange(estimate) |>
     mutate(
-      stars = starify(p.value),
+      stars = format_pval(p.value),
       x = 1,
       xend = seq_len(n()) + 1,
       y = c(15.5, 16, 16.5, 17),
-      # "NS" vs "***" heights are different
-      label_y = if_else(stars == "NS", y, y - 0.2),
+      label_y = y,
       mid = (x + xend) / 2
     )
 }

@@ -14,15 +14,14 @@ cell_rna <- tar_read(cell_rna, store = "stores/cell_rna/")
 fig <- function(cell_rna) {
   data <- prep_data(cell_rna)
   tt <- test(data)
-  aov_sig <- filter(tt, aov_p_adj < 0.05)
-  data <- semi_join(data, aov_sig, by = "signature") |>
-    mutate(signature = str_replace_all(signature, " ", "\n"))
-  aov_sig <- mutate(aov_sig, signature = str_replace_all(signature, " ", "\n"))
+  aov_sig <- filter(
+    tt, aov_p_adj < 0.05, signature == "Epithelial Mesenchymal Transition"
+  )
+  data <- semi_join(data, aov_sig, by = "signature")
 
   plot <- ggplot(data, aes(consensus, value, color = consensus)) +
     geom_hline(yintercept = 0, linewidth = 0.2) +
     geom_jitter(shape = 16, size = 0.75, alpha = 0.75, width = 0.2) +
-    facet_grid(~signature, switch = "x") +
     geom_segment(
       data = aov_sig, aes(x = x, xend = xend, y = y, yend = yend),
       inherit.aes = FALSE
@@ -36,18 +35,17 @@ fig <- function(cell_rna) {
     custom_ggplot +
     theme(
       panel.grid.major.x = element_blank(),
-      axis.text.x = element_blank(),
-      axis.ticks.x = element_blank(),
       axis.title.x = element_blank(),
-      strip.text = element_text(vjust = 1),
-      legend.position = "bottom",
+      legend.position = "none",
+      plot.margin = unit(c(2, 0, 0, 0), "lines"),
+      plot.tag.location = "plot"
     ) +
     coord_cartesian(ylim = c(-0.6, 0.6), clip = "off") +
-    labs(color = "Consensus", y = "Score", tag = "D")
+    labs(color = "Consensus", y = "EMT Score", tag = "B")
 
   ggsave(
     "02_figures/03-d.png", plot,
-    width = 6.5, height = 2, units = "in", dpi = 500
+    width = 2, height = 2.5, units = "in", dpi = 500
   )
 }
 
@@ -80,7 +78,8 @@ wrangle <- function(data) {
   assay(data) |>
     as_tibble(rownames = "signature") |>
     pivot_longer(-signature, names_to = "cell") |>
-    left_join(as_tibble(colData(data)), by = "cell")
+    left_join(as_tibble(colData(data)), by = "cell") |>
+    filter()
 }
 
 test <- function(data) {
@@ -96,7 +95,7 @@ test <- function(data) {
     array2DF() |>
     mutate(
       tt_p_adj = p.adjust(p.value, method = "BH"),
-      tt_stars = starify(tt_p_adj),
+      tt_stars = format_pval(tt_p_adj),
       .by = signature
     ) |>
     select(signature, test, tt_p_adj, tt_stars) |>
@@ -107,11 +106,11 @@ test <- function(data) {
       xend = match(str_extract(test, "[^_]*$"), c("lp", "e", "m")),
       y = case_when(
         x == 1 & xend == 2 ~ 0.7,
-        x == 1 & xend == 3 ~ 1,
+        x == 1 & xend == 3 ~ 0.8,
         x == 3 ~ 0.6
       ),
       yend = y,
-      label_y = if_else(tt_stars == "NS", y, y - 0.075),
+      label_y = y,
       mid = (x + xend) / 2
     )
 }

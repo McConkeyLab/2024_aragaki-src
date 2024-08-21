@@ -11,15 +11,16 @@ tw <- tar_read(tw, store = "stores/tw/")
 fig <- function(data) {
   d <- prep_data(data)
   tt <- test(d)
+  tt$panel <- factor(tt$panel, levels = levels(d$panel))
 
   plot <- ggplot(d, aes(x = name, y = adj_count, group = date)) +
     geom_line(linewidth = 0.2) +
     geom_point(aes(color = name), shape = 16, alpha = 0.75) +
     facet_grid(cell_line ~ panel) +
     scale_y_log10() +
-    geom_text(data = tt, aes(x, y, label = stars, group = NULL), size = tt$size) +
+    geom_text(data = tt, aes(x, y, label = stars, group = NULL), size = 3) +
     custom_ggplot +
-    labs(y = "Cells/hr", tag = "A") +
+    labs(y = "Cells/hr") +
     theme(
       legend.position = "none",
       axis.title.x = element_blank(),
@@ -73,10 +74,9 @@ test <- function(data) {
     array2DF() |>
     separate(panel_line, into = c("panel", "cell_line"), sep = "_") |>
     mutate(
-      stars = starify(p.value),
-      size = if_else(stars == "NS", 2, 5),
+      stars = format_pval(p.value),
       x = 1.5,
-      y = if_else(stars == "NS", 150, 100)
+      y = 150
     )
 }
 

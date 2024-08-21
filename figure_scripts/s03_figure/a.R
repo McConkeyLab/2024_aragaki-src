@@ -16,7 +16,7 @@ fig <- function(data) {
     scale_x_log10(breaks = c(0.1, 1, 100, 10000), labels = c("0", "1", "100", "10000")) +
     scale_y_continuous(breaks = seq(0, 1, length.out = 3)) +
     custom_ggplot +
-    labs(color = "Cell Line Type", x = "[Drug]", y = "Relative OD", tag = "A") +
+    labs(color = "Cell Line Type", x = "[Drug]", y = "Relative OD") +
     theme(panel.spacing.x = unit(1, "line"))
   ggsave(
     "02_figures/s03-a.png", plot,
