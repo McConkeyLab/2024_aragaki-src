@@ -139,7 +139,7 @@ To examine the effects of SRC inhibition _in vivo_, we pre-treated the RT112 and
         image("02_figures/06-a.png"),
         image("02_figures/06-b.png")
     ),
-    caption: [*Src knockdown has differential _in vivo_ effects across cell lines.* *A:* Overall survival of NSG mice tail-vein injected with conditional knockdown cell-lines, with or without doxycycline drinking water.]
+    caption: [*Src knockdown has differential _in vivo_ effects across cell lines.* *A:* Overall survival of NSG mice tail-vein injected with conditional knockdown cell-lines, with or without doxycycline drinking water. *B:* Ratio of lung metastasis area to lung area, as quantified by ImageJ, in mice exposed to (+) or not exposed to (-) doxycycline. CI = 95%]
 ) <fig7>
 
 = DISCUSSION
@@ -188,7 +188,7 @@ Subconfluent cells were trypsinized, resuspended in serum containing medium, cen
     - Western blots
     - KD works: show single timepoint for PCR
     - _in vivo_: Figures from Yujiro
-- Mat & Met: Experimental mets
+- Mat & Met: Experimental mets, quantification of lung mets
 - Discussion
 
 #text(8pt)[
