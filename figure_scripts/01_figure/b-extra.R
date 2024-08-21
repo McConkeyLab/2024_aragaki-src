@@ -29,7 +29,7 @@ fig <- function(data) {
   plot <- ggplot(data, aes(SRC, Progression)) +
     geom_point(shape = 16, alpha = 0.5, size = 0.5, aes(color = uromol)) +
     geom_smooth(method = lm, se = FALSE, color = "black", linewidth = 0.2) +
-    geom_text(data = test(um), aes(x = 4, y = 0, label = label), hjust = 0, size = 3, vjust = 0) +
+    geom_text(data = test(data), aes(x = 4, y = 0, label = label), hjust = 0, size = 3, vjust = 0) +
     facet_grid(~uromol) +
     labs(tag = "C") +
     custom_ggplot +

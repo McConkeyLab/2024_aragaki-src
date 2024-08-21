@@ -2,7 +2,7 @@ library(bladdr)
 library(gplate)
 library(tidyverse)
 library(mop)
-tar_make(script = "R/targets/ntt.R", store = "stores/mtt/")
+tar_make(script = "R/targets/mtt.R", store = "stores/mtt/")
 
 source("R/functions/common.R")
 
