@@ -1,5 +1,5 @@
 figure_scripts/*.png
-/01_data/
+/01_data/00_gdcdata
 /02_figures/
 /stores/
 /figures.pdf
