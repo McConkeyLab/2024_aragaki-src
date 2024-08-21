@@ -5,27 +5,55 @@ library(readxl)
 
 source("R/functions/common.R")
 
-mets <- get_gbci("Raw Data/mouse-measurements/hayashi-yujiro/tail-vein.xlsx") |>
-  read_excel()
+wrangle <- function() {
+  get_gbci("Raw Data/mouse-measurements/hayashi-yujiro/tail-vein.xlsx") |>
+    read_excel() |>
+    mutate(
+      cell_line = "UC6",
+      type = ifelse(str_detect(line, "NT"), "NT", "KD"),
+      dox = ifelse(str_detect(line, "_D$"), "+", "-")
+    )
+}
 
-mets <- mets |>
-  mutate(
-    cell_line = "UC6",
-    type = ifelse(str_detect(line, "NT"), "NT", "KD"),
-    dox = str_detect(line, "_D$")
-  )
-
-mets_summary <- mets |>
-  reframe(
-    as_tibble(rownames = "name", Hmisc::smean.cl.normal(mets_to_lung_ratio)),
-    .by = c(line, dox, type, cell_line)
+test <- function(data) {
+  tapply(
+    data, ~type, \(x) tidy(t.test(mets_to_lung_ratio ~ dox, data = x))
   ) |>
-  mutate(value = ifelse(value < 0.0001, 0.0001, value)) |>
-  pivot_wider()
+    array2DF() |>
+    mutate(
+      label = format_pval(p.value),
+      y = max(data$mets_to_lung_ratio, na.rm = TRUE),
+      x = 1.5
+    )
+}
 
-ggplot(mets, aes(dox, mets_to_lung_ratio + 0.0001, color = dox)) +
-  facet_grid(~type) +
-  scale_y_log10() +
-  geom_jitter(width = 0.1, height = 0, alpha = 0.5, shape = 16) +
-  geom_pointrange(data = mets_summary, aes(y = Mean, ymin = Lower, ymax = Upper)) +
-  custom_ggplot
+fig <- function() {
+  d <- wrangle()
+  tt <- test(d)
+  mets_summary <- d |>
+    reframe(
+      as_tibble(rownames = "name", Hmisc::smean.cl.normal(mets_to_lung_ratio)),
+      .by = c(line, dox, type, cell_line)
+    ) |>
+    mutate(value = ifelse(value < 0.0001, 0.0001, value)) |>
+    pivot_wider()
+
+  plot <- ggplot(mets, aes(dox, mets_to_lung_ratio + 0.0001, color = dox)) +
+    facet_grid(~type) +
+    scale_y_log10() +
+    geom_jitter(width = 0.1, height = 0, alpha = 0.5, shape = 16, size = 0.5) +
+    geom_pointrange(data = mets_summary, aes(y = Mean, ymin = Lower, ymax = Upper)) +
+    geom_text(data = tt, aes(x = x, y = y, label = label),
+              color = "black", size = 2.5, vjust = 0) +
+    labs(y = "Met./Lung Area") +
+    coord_cartesian(clip = "off") +
+    custom_ggplot +
+    theme(
+      axis.title.x = element_blank(),
+      panel.grid.major.x = element_blank(),
+      legend.position = "none"
+    )
+  ggsave("02_figures/06-b.png", width = 1.5, height = 2, dpi = 500)
+}
+
+fig()

@@ -134,7 +134,11 @@ As Src is associated with a variety of oncogenic processes including proliferati
 To examine the effects of SRC inhibition _in vivo_, we pre-treated the RT112 and UM-UC6 iKD cells +/- doxycycline before inoculating them into the tail veins of immunodeficient NSG mice housed with or without doxycycline in their drinking water. RT112 produced metastases in the lungs, liver, and spine, resulting in failure to void and hind leg paralysis, whereas UM-UC6 caused lymph node and lung metastases. Consistent with our findings of SRC KD's effect on proliferation, SRC knockdown extended survival in mice inoculated with UM-UC6 but had no effect in animals with RT112 metastases, and did not affect the sites of metastasis in either model (@fig7).
 
 #figure(
-    image("02_figures/06-a.png"),
+    grid(
+        rows: 2,
+        image("02_figures/06-a.png"),
+        image("02_figures/06-b.png")
+    ),
     caption: [*Src knockdown has differential _in vivo_ effects across cell lines.* *A:* Overall survival of NSG mice tail-vein injected with conditional knockdown cell-lines, with or without doxycycline drinking water.]
 ) <fig7>
 
@@ -187,4 +191,7 @@ Subconfluent cells were trypsinized, resuspended in serum containing medium, cen
 - Mat & Met: Experimental mets
 - Discussion
 
-#bibliography("./sources.bib", style: "nature")
+#text(8pt)[
+    #set par(leading: 0.4em)
+    #bibliography("./sources.bib", style: "nature")
+]
