@@ -30,9 +30,9 @@ fig <- function(data) {
     labs(y = "Cells/hr", color = "Condition") +
     custom_ggplot +
     theme(
-      axis.text.x = element_blank(),
       axis.title.x = element_blank(),
-      panel.grid.major.x = element_blank()
+      panel.grid.major.x = element_blank(),
+      legend.position = "none"
     ) +
     coord_cartesian(x = c(1, 2), clip = "off")
 
@@ -65,10 +65,10 @@ prep_data <- function(data) {
       cell_line = toupper(cell_line),
       label = ifelse(drug == "dmso", as.character(cell_line), NA),
       drug = case_when(
-        drug == "dmso" ~ "DMSO",
-        drug == "bosutinib" ~ "Bosutinib"
+        drug == "dmso" ~ "-",
+        drug == "bosutinib" ~ "+"
       ),
-      drug = fct_relevel(drug, "DMSO")
+      drug = fct_relevel(drug, "-")
     )
 }
 
@@ -78,7 +78,7 @@ test <- function(data) {
     pivot_wider(names_from = drug, values_from = adj_count) |>
     mutate(consensus = as.character(consensus)) |>
     tapply(
-      ~consensus, \(x) tidy(t.test(x = x$DMSO, y = x$Bosutinib, paired = TRUE))
+      ~consensus, \(x) tidy(t.test(x = x$`-`, y = x$`+`, paired = TRUE))
     )
 }
 

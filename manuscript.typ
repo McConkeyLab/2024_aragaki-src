@@ -104,7 +104,7 @@ We next determined if sensitivity to Src inhibition varied across consensus clas
     grid(
         image("02_figures/04-c.png")
     ),
-    caption: [*Sensitivity to Src inhibition across consensus subtypes.* Changes in migration rates across consensus subtypes upon exposure 1μM bositinib. LP: Luminal papillary; BS: Basal squamous]
+    caption: [*Sensitivity to Src inhibition across consensus subtypes.* Changes in migration rates across consensus subtypes without (DMSO, -) or with (+) 1μM bositinib. LP: Luminal papillary; BS: Basal squamous]
 ) <fig5>
 
 
@@ -196,7 +196,6 @@ Subconfluent cells were trypsinized, resuspended in serum containing medium, cen
     - Survival: Add tags
     - Western blots
     - _in vivo_: Figures from Yujiro
-    - Bosutinib sensitivity across clades: rm legend, use x axis text (DMSO, Bos.)
     - rm confusing coloring
 - Discussion
 
