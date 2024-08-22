@@ -49,11 +49,12 @@ fig <- function(data) {
       panel.grid.major.x = element_blank(),
       plot.margin = unit(c(2.5, 0, 0, 0), "lines"),
       plot.tag.position = c(0, 1.25),
-      plot.tag = element_text(hjust = 0)
+      plot.tag = element_text(hjust = 0),
+      legend.position = "none"
     )
   ggsave(
     "02_figures/04-a.png", plot,
-    width = 3.25, height = 2, units = "in", dpi = 500
+    width = 3.25, height = 1.7, units = "in", dpi = 500
   )
 }
 

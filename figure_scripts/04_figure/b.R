@@ -47,13 +47,14 @@ fig <- function(data) {
       axis.title.x = element_blank(),
       axis.text.x = element_text(hjust = 0, vjust = 0.5, angle = -90),
       panel.grid.major.x = element_blank(),
-      plot.margin = unit(c(2.7, 0, 0, 0), "lines"),
+      plot.margin = unit(c(2.9, 0, 0, 0), "lines"),
       plot.tag.position = c(0, 1.25),
-      plot.tag = element_text(hjust = 0)
+      plot.tag = element_text(hjust = 0),
+      legend.position = "bottom"
     )
   ggsave(
     "02_figures/04-b.png", plot,
-    width = 3.7, height = 2, units = "in", dpi = 500
+    width = 3.7, height = 2.5, units = "in", dpi = 500
   )
 }
 
