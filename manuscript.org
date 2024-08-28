@@ -1,12 +1,3 @@
-* ABSTRACT
-Past work in preclinical models of breast cancer and other solid tumors implicated SRC in invasion and metastasis, whereas it functioned as an inhibitor of metastasis in bladder cancer. Here we tested the hypothesis that the role of SRC in metastasis is dependent on molecular subtype membership. Analyses of TCGA and other large public datasets demonstrated that SRC mRNA and protein expression were enriched in tumors assigned to the luminal papillary molecular subtype. Unsupervised hierarchical clustering based on whole transcriptome RNA expression data from a panel of n = 30 human bladder cancer cell lines assigned them to 3 major clusters that corresponded to luminal papillary, genomically unstable, or basal/squamous molecular subtype assignments generated using the Lund or Consensus molecular subtype classifiers, and SRC mRNA expression was also highest in luminal papillary cell lines. Chemical SRC antagonists tended to inhibit migration in luminal papillary cells but increased migration and invasion in basal/squamous lines. Conditional SRC knockdown inhibited migration while upregulating EMT gene expression in luminal papillary RT112 cells, whereas it increased migration while downregulating EMT in genomically unstable UM-UC6 cells. Regardless, these effects did not affect levels or sites of experimental metastasis in vivo. Overall, the results confirm that the effects of SRC inhibition on invasion and migration are heterogeneous and linked to molecular subtype membership. The results have implications for the potential use of SRC pathway inhibitors to block bladder cancer progression in patients.
-(234 words)
-
-* INTRODUCTION
-The SRC protooncogene was first identified as the causative factor that mediated the transforming effects of an avian leukemia virus. Its human counterpart encodes a 60kD non-receptor tyrosine kinase that has been implicated in cell cycle progression and integrin-mediated adhesion signaling. Early studies in hematopoietic cells and solid tumor cell lines implicated the integrin-dependent effects of SRC in directional motility, invasion, and metastasis. However, studies in preclinical models of bladder cancer concluded that SRC inhibited invasion and metastasis via mechanisms that involved direct phosphorylation of RhoGDI2 and downstream inhibition of caveolin-1 (refs).
-
-Bladder cancers are known to be highly heterogeneous in terms of their invasive and metastatic potentials. Most bladder cancers are superficial low-grade papillary lesions that are prone to recurrence but rarely progress to become life-threatening and metastatic. However, approximately 20-25% of bladder cancers are muscle-invasive at diagnosis, and about half of patients with muscle-invasive bladder cancer (MIBC) ultimately die of metastatic disease. Bladder cancers can also be grouped into basal and luminal molecular subtypes that are similar to those described in breast cancer. Luminal papillary bladder cancers are associated with activating FGFR3 mutations and fusions are associated with better survival outcomes, whereas basal bladder cancers exhibit features of epithelial-to-mesenchymal transition (EMT) and are associated with invasive and metastatic disease at clinical presentation and shorter disease-specific survival. We wondered whether SRC might play different roles in luminal versus basal bladder cancers. We tested this hypothesis using public human bladder cancer bulk RNA expression datasets and a large panel of human bladder cancer cell lines.
-
 * RESULTS [6/9]
 ** HOLD SUPPLEMENTAL FIGURE 1 [1/2]
 *** DONE
@@ -52,7 +43,6 @@ and it did not affect the sites of metastasis in either model (Figure 6).
 Immunohistochemical staining and quantitative PCR confirmed sustained SRC knockdown in the metastases (Figure 6).
 *** HOLD
 Consistent with the in vitro findings, SRC knockdown caused decreased proliferation in the UM-UC6 metastases but had no effect on proliferation in RT112, and knockdown had no measurable effect on proliferation in either model (Figure 6).
-* DISCUSSION
 * TASKS [1/4]
 ** TODO Saracatinib, Bosutinib, Galunisertib WB
 - UC6, RT112
