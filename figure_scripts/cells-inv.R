@@ -35,26 +35,26 @@ fig <- function(data) {
     geom_text(
       data = tt,
       aes(x = label_x, y = label_y, label = stars),
-      vjust = -0.3,
+      vjust = -0.2,
       size = 3,
       inherit.aes = FALSE
     ) +
-    coord_cartesian(ylim = c(NA, 1000), clip = "off") +
-    labs(y = "Cells/hr", color = "Consensus", tag = "A") +
+    coord_cartesian(ylim = c(0.1, 500), clip = "off") +
+    labs(y = "Cells/hr", color = "Consensus", tag = "B") +
     scale_y_log10() +
     custom_ggplot +
     theme(
       axis.title.x = element_blank(),
       axis.text.x = element_text(hjust = 0, vjust = 0.5, angle = -90),
       panel.grid.major.x = element_blank(),
-      plot.margin = unit(c(2.5, 0, 0, 0), "lines"),
+      plot.margin = unit(c(2.9, 0, 0, 0), "lines"),
       plot.tag.position = c(0, 1.25),
       plot.tag = element_text(hjust = 0),
-      legend.position = "none"
+      legend.position = "bottom"
     )
   ggsave(
-    "02_figures/04-a.png", plot,
-    width = 3.25, height = 1.7, units = "in", dpi = 500
+    "02_figures/cells-inv.png", plot,
+    width = 3.7, height = 2.5, units = "in", dpi = 500
   )
 }
 
@@ -72,34 +72,34 @@ make_test_annotation <- function() {
   # ------     ------
   #   LP         Mes
   annot_coords <- tibble(
-    group_1 = c("lp", "lp", "lp",   "eo"),
-    group_2 = c("eo", "mes", "mes", "mes"),
-    x =       c(1,    1,     13,     8),
-    xend =    c(12,   7,     14,    14),
-    y =       c(1000, 10000, 10000, 3000),
+    group_1 = c("lp", "lp", "lp",   "bs"),
+    group_2 = c("bs", "ne", "ne", "ne"),
+    x =       c(1,      1,   18,   10),
+    xend =    c(17,     9,   19,   19),
+    y =       c(500, 10000, 10000, 2500),
     yend = y,
     mid = (x + xend) / 2
   )
   v_segs <- tibble(
     group_1 = "lp",
-    group_2 = "mes",
+    group_2 = "ne",
     yend_seg = 20000
     # x and xend is mid in annot_coords
     # y is y in annot_coords
   )
   top_seg <- tibble(
     group_1 = "lp",
-    group_2 = "mes",
+    group_2 = "ne",
     x = 1,
     # x above used for join
     # real x is mid
-    xend_top = (13 + 14) / 2,
+    xend_top = (18 + 19) / 2,
   )
   label <- tibble(
-    group_1 = c("lp", "lp", "eo"),
-    group_2 = c("eo", "mes", "mes"),
-    label_x = c(6.5, 8.5, 11),
-    label_y = c(1000, 20000, 3000)
+    group_1 = c("lp", "lp", "bs"),
+    group_2 = c("bs", "ne", "ne"),
+    label_x = c(9, (5 + 18.5) / 2, 14.5),
+    label_y = c(500, 20000, 2500)
   )
   left_join(annot_coords, v_segs) |>
     left_join(top_seg) |>
@@ -109,13 +109,13 @@ make_test_annotation <- function() {
 t_fun <- function(data) {
   lp_v_e <- t.test(Mean ~ consensus, filter(data, consensus %in% c("LP", "BS"))) |>
     tidy() |>
-    mutate(group_1 = "lp", group_2 = "eo")
+    mutate(group_1 = "lp", group_2 = "bs")
   m_v_e <- t.test(Mean ~ consensus, filter(data, consensus %in% c("NE", "BS"))) |>
     tidy() |>
-    mutate(group_1 = "eo", group_2 = "mes")
+    mutate(group_1 = "bs", group_2 = "ne")
   lp_v_m <- t.test(Mean ~ consensus, filter(data, consensus %in% c("LP", "NE"))) |>
     tidy() |>
-    mutate(group_1 = "lp", group_2 = "mes")
+    mutate(group_1 = "lp", group_2 = "ne")
   bind_rows(lp_v_e, m_v_e, lp_v_m)
 }
 
@@ -123,13 +123,12 @@ prep_data <- function(data) {
   data |>
     filter(
       cell_line_character %in% c("parental", "new pack", "bryan", "tryple", "trypsin"),
-      transwell == "uncoated",
-      drug == "dmso",
-      loading_number == 100000
+      transwell == "matrigel",
+      !is.na(count)
     ) |>
     mutate(
       ## Since we're going to take the log, eliminate 0 by adding a pseudocount
-      adj_count = (count + 1) / time_hr,
+      adj_count = (count + 1) * (30000 / loading_number) / time_hr,
       cell_line = toupper(cell_line)
     ) |>
     mutate(adj_count_mean = mean(adj_count), .by = cell_line) |>
@@ -143,7 +142,7 @@ summarize_data <- function(data) {
       as_tibble(rownames = "name", Hmisc::smean.cl.normal(adj_count)),
       .by = c(cell_line, consensus)
     ) |>
-    mutate(value = ifelse(value <= 0, 1, value)) |>
+    mutate(value = ifelse(value <= 0.1, 0.1, value)) |>
     pivot_wider()
 }
 

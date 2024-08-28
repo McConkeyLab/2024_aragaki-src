@@ -26,7 +26,7 @@ fig <- function(data) {
     )
 
   ggsave(
-    "02_figures/01-a.png", plot,
+    "02_figures/lund-nmi-vs-mi.png", plot,
     width = 1.2, height = 2.5, units = "in", dpi = 500
   )
 }

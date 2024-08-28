@@ -37,7 +37,7 @@ fig <- function(data) {
     )
 
   ggsave(
-    "02_figures/01-b.png", plot,
+    "02_figures/uromol-src-across-class.png", plot,
     width = 1.5, height = 2.5, units = "in", dpi = 500
   )
 }

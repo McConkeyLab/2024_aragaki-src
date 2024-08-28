@@ -37,7 +37,7 @@ fig <- function(data) {
     coord_cartesian(x = c(1, 2), clip = "off")
 
   ggsave(
-    "02_figures/04-c.png", plot,
+    "02_figures/cells-mig-bos.png", plot,
     width = 3.5, height = 1.8, units = "in", dpi = 500
   )
 }

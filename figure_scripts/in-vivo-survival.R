@@ -16,15 +16,18 @@ fig <- function(data) {
     facet_grid(~cell_line) +
     geom_step(aes(color = dox)) +
     custom_ggplot +
-    theme(legend.position = "top") +
+    theme(
+      legend.position = "top",
+      plot.tag.location = "plot",
+    ) +
     geom_text(
       data = tt, aes(x = 0, y = 0.5, label = label),
       hjust = 0, size = 3
     ) +
-    labs(y = "OS", x = "Time (days)", color = "SRC KD")
+    labs(y = "OS", x = "Time (days)", color = "SRC KD", tag = "A")
   ggsave(
-    "02_figures/06-a.png", plot,
-    width = 4, height = 2.5, units = "in", dpi = 500
+    "02_figures/in-vivo-survival.png", plot,
+    width = 4, height = 2, units = "in", dpi = 500
   )
 }
 

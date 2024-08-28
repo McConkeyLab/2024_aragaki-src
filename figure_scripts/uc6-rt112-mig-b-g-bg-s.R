@@ -28,7 +28,7 @@ fig <- function(data) {
     ) +
     coord_cartesian(ylim = c(NA, 100), clip = "off")
   ggsave(
-    "02_figures/s01-a.png", plot,
+    "02_figures/uc6-rt112-mig-b-g-bg-s.png", plot,
     width = 4, height = 2, units = "in", dpi = 500
   )
 }

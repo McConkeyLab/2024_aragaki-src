@@ -36,7 +36,7 @@ fig <- function(data) {
     ) +
     coord_cartesian(ylim = c(NA, 16), clip = "off")
   ggsave(
-    "02_figures/02-b.png", plot,
+    "02_figures/tcga-src-rna-across-subtype.png", plot,
     width = 2, height = 2.5, units = "in", dpi = 500
   )
 }

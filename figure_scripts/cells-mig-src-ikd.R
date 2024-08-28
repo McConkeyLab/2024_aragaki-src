@@ -19,7 +19,7 @@ fig <- function(data) {
     scale_y_log10() +
     geom_text(data = tt, aes(x, y, label = stars, group = NULL), size = 3) +
     custom_ggplot +
-    labs(y = "Cells/hr") +
+    labs(y = "Cells/hr", tag = "B") +
     theme(
       legend.position = "none",
       axis.title.x = element_blank(),
@@ -27,7 +27,7 @@ fig <- function(data) {
     ) +
     coord_cartesian(ylim = c(NA, 1000), clip = "off")
   ggsave(
-    "02_figures/05-a.png", plot,
+    "02_figures/cells-mig-src-ikd.png", plot,
     width = 2.5, height = 2, units = "in", dpi = 500
   )
 }

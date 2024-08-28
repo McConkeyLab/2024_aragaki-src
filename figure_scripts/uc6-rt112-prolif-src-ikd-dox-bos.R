@@ -23,10 +23,9 @@ fig <- function(data) {
       legend.position = "bottom"
     )
   ggsave(
-    "02_figures/s03-a.png", plot,
+    "02_figures/uc6-rt112-prolif-src-ikd-dox-bos.png", plot,
     width = 4, height = 3, units = "in", dpi = 500
   )
-  "02_figures/s03-a.png"
 }
 
 fig(mtt)

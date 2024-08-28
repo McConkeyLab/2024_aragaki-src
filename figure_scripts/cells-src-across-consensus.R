@@ -45,11 +45,10 @@ fig <- function(cell_rna) {
     labs(x = NULL, y = "SRC", tag = "A")
 
   ggsave(
-    "02_figures/03-b.png", plot,
+    "02_figures/cells-src-across-consensus.png", plot,
     width = 2, height = 2.5, units = "in", dpi = 500
   )
 }
-
 
 test <- function(data) {
   data$consensus <- as.character(data$consensus)

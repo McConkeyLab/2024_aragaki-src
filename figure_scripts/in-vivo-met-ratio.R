@@ -46,15 +46,16 @@ fig <- function() {
     geom_pointrange(data = mets_summary, aes(y = Mean, ymin = Lower, ymax = Upper)) +
     geom_text(data = tt, aes(x = x, y = y, label = label),
               color = "black", size = 2.5, vjust = 0) +
-    labs(y = "Met./Lung Area") +
+    labs(y = "Met./Lung Area", tag = "B") +
     coord_cartesian(clip = "off") +
     custom_ggplot +
     theme(
       axis.title.x = element_blank(),
       panel.grid.major.x = element_blank(),
+      plot.tag.location = "plot",
       legend.position = "none"
     )
-  ggsave("02_figures/06-b.png", width = 1.5, height = 2, dpi = 500)
+  ggsave("02_figures/in-vivo-met-ratio.png", width = 1.5, height = 1.7, dpi = 500)
 }
 
 fig()

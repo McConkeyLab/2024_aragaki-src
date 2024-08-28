@@ -38,7 +38,7 @@ fig <- function(data) {
     coord_cartesian(ylim = c(NA, 3), clip = "off") +
     labs(y = "Expression", x = NULL, tag = "B", color = "Subtype")
   ggsave(
-    "02_figures/02-c.png", plot,
+    "02_figures/tcga-src-prot-across-subtype.png", plot,
     width = 4, height = 2.5, units = "in", dpi = 500
   )
 }

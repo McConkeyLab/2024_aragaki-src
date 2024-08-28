@@ -44,7 +44,7 @@ fig <- function(cell_rna) {
     labs(color = "Consensus", y = "EMT Score", tag = "B")
 
   ggsave(
-    "02_figures/03-d.png", plot,
+    "02_figures/cells-emt-across-consensus.png", plot,
     width = 2, height = 2.5, units = "in", dpi = 500
   )
 }

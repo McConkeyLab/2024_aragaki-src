@@ -38,7 +38,7 @@ fig <- function(data) {
       plot.tag.location = "plot"
     )
   ggsave(
-    "02_figures/01-c.png",
+    "02_figures/uromol-prog-vs-src-cor.png",
     plot,
     width = 4.7, height = 2, units = "in", dpi = 500
   )
