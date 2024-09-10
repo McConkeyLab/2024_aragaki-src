@@ -1,11 +1,6 @@
 #set page(margin: 0.5in)
 #set footnote(numbering: "*")
 #set par(justify: true)
-#show figure.caption: it => [
-    #set text(8pt)
-    #set align(left)
-    #it
-]
 
 #show heading.where(
   level:1
@@ -55,8 +50,9 @@ Bladder cancers are highly heterogeneous in their invasive and metastatic potent
             image("02_figures/uromol-prog-vs-src-cor.png")
         )
     ),
-    caption: [*SRC is enriched in less aggressive bladder cancer subtypes.* *A:* SRC expression in the Lund cohort, stratified by muscle invasion. *B:* SRC expression in the UROMOL 2021 cohort, stratified by UROMOL 2021 class. *C:* Pearson correlation between progression score and SRC expression. NMI: Non-muscle invasive, MI: Muscle invasive. CI = 95%.]
 ) <fig1>
+*SRC is enriched in less aggressive bladder cancer subtypes.* *A:* SRC expression in the Lund cohort, stratified by muscle invasion. *B:* SRC expression in the UROMOL 2021 cohort, stratified by UROMOL 2021 class. *C:* Pearson correlation between progression score and SRC expression. NMI: Non-muscle invasive, MI: Muscle invasive. CI = 95%.
+
 
 == SRC expression across subtypes
 We first used public bulk mRNA expression datasets to explore if SRC expression correlated with stage and molecular subtype membership. Consistent with previous findings @Fanning_1992, SRC expression was significantly higher in NMIBC relative to MIBC (@fig1, A). SRC levels were additionally elevated in the least aggressive UROMOL subtype (Class 1), but also in the subtype associated with the highest rate of progression (Class 2a) (@fig1, B) @Lindskrog_2021. SRC expression strongly correlated with progression score in Class 1 tumors, (@fig1, C), implying SRC expression may be an avenue for progression.
@@ -69,8 +65,8 @@ MIBC showed a similar pattern between subtype aggressiveness and SRC expression,
         image("02_figures/tcga-src-rna-across-subtype.png"),
         image("02_figures/tcga-src-prot-across-subtype.png")
     ),
-    caption: [*SRC is enriched in luminal muscle invasive bladder cancer.* *A:* SRC expression in the TCGA cohort, stratified by TCGA subtype. *B:* Src protein and phosphorylated species expression in the TCGA cohort, stratified by subtype. LP: Luminal papillary, L: Luminal, LI: Luminal infiltrated, BS: Basal squamous, N: Neuronal. CI = 95%.]
 ) <fig2>
+*SRC is enriched in luminal muscle invasive bladder cancer.* *A:* SRC expression in the TCGA cohort, stratified by TCGA subtype. *B:* Src protein and phosphorylated species expression in the TCGA cohort, stratified by subtype. LP: Luminal papillary, L: Luminal, LI: Luminal infiltrated, BS: Basal squamous, N: Neuronal. CI = 95%.
 
 == Differential SRC expression in human cell lines
 We next examined whether SRC expression was also heterogeneous in a panel of 30 human bladder cancer cell lines. To compare to human tumors, we first classified the cells by consensus class@Kamoun_2020. We found that our luminal-papillary (LP) models expressed significantly higher levels of SRC than the basal squamous (BS) models (@fig3, A), consistent with our findings in human tumors. Using GSVA to calculate gene set enrichment scores across classes, we found the EMT signature was significantly upregulated in the BS lines when compared to the LP lines (@fig3, B).
@@ -81,8 +77,8 @@ We next examined whether SRC expression was also heterogeneous in a panel of 30 
         image("02_figures/cells-src-across-consensus.png"),
         image("02_figures/cells-emt-across-consensus.png")
     ),
-    caption: [*Bladder cancer cell lines recapitulate tumor subtypes.* *B:* SRC expression in cell lines stratified by consensus classifier. *D:* Hallmark gene-set enrichment scores stratified by consensus subtype. Shown Hallmarks are those with statistically significant ANOVA scores. LP: Luminal papillary; BS: Basal squamous; NE: Neuroendocrine-like. CI = 95%.]
 ) <fig3>
+*Bladder cancer cell lines recapitulate tumor subtypes.* *A:* SRC expression in cell lines stratified by consensus classifier. *B:* Hallmark gene-set enrichment scores stratified by consensus subtype. Shown Hallmarks are those with statistically significant ANOVA scores. LP: Luminal papillary; BS: Basal squamous; NE: Neuroendocrine-like. CI = 95%.
 
 == Differential cell line motility across consensus class
 
@@ -94,8 +90,8 @@ To see if enrichment of EMT score translated to functional cell line motility pe
         image("02_figures/cells-mig.png"),
         image("02_figures/cells-inv.png"),
     ),
-    caption: [*Motility across consensus subtypes.* *A, B:* Migration (*A*) and invasion (*B*) rates of cell lines in Boyden chamber assays, stratified by consensus subtype. LP: Luminal papillary; BS: Basal squamous; NE: Neuroendocrine-like. NS not significant. CI = 95%.]
 ) <fig4>
+*Motility across consensus subtypes.* *A, B:* Migration (*A*) and invasion (*B*) rates of cell lines in Boyden chamber assays, stratified by consensus subtype. LP: Luminal papillary; BS: Basal squamous; NE: Neuroendocrine-like. NS not significant. CI = 95%.
 
 == Differential sensitivity to SRC across consensus class
 We next determined if sensitivity to Src inhibition varied across consensus classes. We exposed a panel of both LP and BS lines to Src inhibitor bosutinib. On average, LP lines migrated at 53% their original rate, while BS lines migrated 72% their average rate; However, neither of these changes were statistically significant (@fig5).
@@ -104,47 +100,46 @@ We next determined if sensitivity to Src inhibition varied across consensus clas
     grid(
         image("02_figures/cells-mig-bos.png")
     ),
-    caption: [*Sensitivity to Src inhibition across consensus subtypes.* Changes in migration rates across consensus subtypes without (DMSO, -) or with (+) 1μM bositinib. LP: Luminal papillary; BS: Basal squamous]
 ) <fig5>
-
+*Sensitivity to Src inhibition across consensus subtypes.* Changes in migration rates across consensus subtypes without (DMSO, -) or with (+) 1μM bositinib. LP: Luminal papillary; BS: Basal squamous
 
 == UM-UC6 migration is mediated by the TGF-β receptor, not Src
 UM-UC6 showed no change in migration upon Src inhibition with bosutinib, but showed significant decrease in migration when inhibited by another Src inhibitor, saracatinib. As saracatinib also inhibits the TGF-β receptor@Klaeger_2017, we wanted to determine if migration in UM-UC6 was mediated by an alternate mechanism. Galunisertib, a TGF-β receptor I inhibitor, either alone or in combination with bosutinib, yielded a decrease in migration rates in UC6 (albeit not statistically significant). RT112's migration was inhibited both by bosutinib as well as saracatinib, but not galunisertib (@figs1).
 
 #figure(
     image("02_figures/uc6-rt112-mig-b-g-bg-s.png"),
-    caption: [*UC6 migration may be mediated by TGFb rather than Src.* Migration rates of cells exposed to DMSO (-) or 1μM bosutinib, 1μM galunisertib, 1μM galunisertib + 1μM bosutinib, or 1μM saracatinib (+).]
 ) <figs1>
+*UC6 migration may be mediated by TGFb rather than Src.* Migration rates of cells exposed to DMSO (-) or 1μM bosutinib, 1μM galunisertib, 1μM galunisertib + 1μM bosutinib, or 1μM saracatinib (+).
 
 We generated doxycycline-inducible SRC knockdown (SRC iKD) lines and performed migration assays with and without 48h 1μg/mL doxycycline pre-incubation. Similar to small molecule inhibitors, RT112 demonstrated an insignificant reduction in migration upon SRC KD, while UC6 showed a modest increase in migration upon SRC KD (@fig6).
 
 #figure(
     grid(
-        columns: (0.6fr, 1fr),
+        columns: (0.8fr, 1fr),
         image("02_figures/kd-works-pcr.png"),
         image("02_figures/cells-mig-src-ikd.png"),
     ),
-    caption: [*Src knockdown has differential effects on migration across cell lines.* Migration rates of doxycycline-inducible SRC knockdown cell lines both without (-) and with (+) 48hr 1μg/mL doxycycline pre-incubation.]
 ) <fig6>
+*Src knockdown has differential effects on migration across cell lines.* Migration rates of doxycycline-inducible SRC knockdown cell lines both without (-) and with (+) 48hr 1μg/mL doxycycline pre-incubation.
 
 As Src is associated with a variety of oncogenic processes including proliferation@Thomas_1997, we measured proliferation upon SRC KD. Despite bosutinib inhibiting proliferation in both UC6 and RT112, induction of SRC knockdown only inhibited proliferation in UC6 lines (@figs3).
 
 #figure(
     image("02_figures/uc6-rt112-prolif-src-ikd-dox-bos.png"),
-    caption: [*UC6 proliferation is uniquely inhibited by SRC knockdown.* *A:* MTT assay of UC6 and RT112 conditional SRC (iKD) or non-targeting (NT) knockdown cells exposed to increasing concentrations of doxycycline (ng/mL) or bosutinib (nM). CI = 95%]
 ) <figs3>
+*UC6 proliferation is uniquely inhibited by SRC knockdown.* *A:* MTT assay of UC6 and RT112 conditional SRC (iKD) or non-targeting (NT) knockdown cells exposed to increasing concentrations of doxycycline (ng/mL) or bosutinib (nM). CI = 95%
 
 == _in vivo_ effects of SRC inhibition
-To examine the effects of SRC inhibition _in vivo_, we pre-treated the RT112 and UM-UC6 iKD cells +/- doxycycline before inoculating them into the tail veins of immunodeficient NSG mice housed with or without doxycycline in their drinking water. RT112 produced metastases in the lungs, liver, and spine, resulting in failure to void and hind leg paralysis, whereas UM-UC6 caused lymph node and lung metastases. Consistent with our findings of SRC KD's effect on proliferation, SRC knockdown extended survival in mice inoculated with UM-UC6 but had no effect in animals with RT112 metastases, and did not affect the sites of metastasis in either model (@fig7).
+To examine the effects of SRC inhibition _in vivo_, we pre-treated the RT112 and UM-UC6 iKD cells +/- doxycycline before inoculating them into the tail veins of immunodeficient NSG mice housed with or without doxycycline in their drinking water. RT112 produced metastases in the lungs, liver, and spine, resulting in failure to void and hind leg paralysis, whereas UM-UC6 caused lymph node and lung metastases. Consistent with our findings of SRC KD's effect on proliferation, SRC knockdown extended survival in mice inoculated with UM-UC6 but had no effect in animals with RT112 metastases (@fig7) and did not affect the sites of metastasis in either model.
 
 #figure(
     grid(
-        rows: 2,
+        columns: (3fr, 1fr),
         image("02_figures/in-vivo-survival.png"),
         image("02_figures/in-vivo-met-ratio.png")
     ),
-    caption: [*Src knockdown has differential _in vivo_ effects across cell lines.* *A:* Overall survival of NSG mice tail-vein injected with conditional knockdown cell-lines, with or without doxycycline drinking water. *B:* Ratio of lung metastasis area to lung area, as quantified by ImageJ, in mice exposed to (+) or not exposed to (-) doxycycline. CI = 95%]
 ) <fig7>
+*Src knockdown has differential _in vivo_ effects across cell lines.* *A:* Overall survival of NSG mice tail-vein injected with conditional knockdown cell-lines, with or without doxycycline drinking water. *B:* Ratio of lung metastasis area to lung area, as quantified by ImageJ, in mice exposed to (+) or not exposed to (-) doxycycline. CI = 95%
 
 = DISCUSSION
 Src was one of the first discovered proto-oncogenes, and over 100 years of study have revealed it serves a complex and varied role in cancer@Thomas_1997. In this study, we sought to clarify some of the paradoxes that have arisen with Src in bladder cancer by looking through the lens of molecular subtypes. This study was made challenging for several reasons. Transwell assays continue to be a challenging, noisy, and low-throughput assay, plagued with confounding variables such as cell passage number, splitting time, and confluence at split. Further, since Src has been shown (by us and many others) to be involved in both proliferation and motility, it is impossible to disentangle the results of transwells assays as that of pure motility or motility combined with changes to proliferation. This would additionally explain the discrepancies between our _in vitro_ migration assays and our _in vivo_ tail vein injection results. Proliferation, rather than motility, may be the key factor in determining survival. As our proliferation assays have shown, RT112 fails to have inhibition proliferated by SRC KD, while UM-UC6's proliferation is inhibited. This is reflected in the differences in survival. Conversely, Src may be important for migration in only RT112, as implied by our transwell assays.
@@ -185,14 +180,9 @@ Subconfluent cells were trypsinized, resuspended in serum containing medium, cen
     All analyses were performed using R@R (v. 4.4.1). P \< 0.05 was used as a cutoff for statistical significance. T-tests are two-tailed. Paired t-tests were used to compare drug/control within biological replicates. Log-rank test was used to test for survival differences (`survival`@survival-package). `GSVA`@GSVA was used to calculate signature enrichment scores.
 
     == Data Availability
-    All code to generate the manuscript and all its figures is available at https://github.com/McConkeyLab/2024_aragaki-src.
+    The Lund cohort data were obtained from GEO (GSE32894). The UROMOL cohort were obtained from the supplementary data from the original paper @Lindskrog_2021. TCGA BLCA data were obtained from the Genomic Data Commons, using the pipeline provided at https://github.com/McConkeyLab/general_tcga. All code to generate the manuscript and all its figures is available at https://github.com/McConkeyLab/2024_aragaki-src.
 
 ]
-
-= TODO
-- Results
-    - Western blots
-    - rm confusing coloring
 
 #text(8pt)[
     #set par(leading: 0.4em)
