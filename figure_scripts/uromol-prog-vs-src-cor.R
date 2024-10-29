@@ -27,20 +27,21 @@ test <- function(data) {
 
 fig <- function(data) {
   plot <- ggplot(data, aes(SRC, Progression)) +
-    geom_point(shape = 16, alpha = 0.5, size = 0.5, aes(color = uromol)) +
-    geom_smooth(method = lm, se = FALSE, color = "black", linewidth = 0.2) +
-    geom_text(data = test(data), aes(x = 4, y = 0, label = label), hjust = 0, size = 3, vjust = 0) +
+    geom_point(shape = 16, size = 0.5, aes(color = uromol)) +
+    geom_smooth(method = lm, se = FALSE, color = "black", linewidth = 0.3) +
+    geom_text(data = test(data), aes(x = 4, y = 0, label = label), hjust = 0, size = 1.7, vjust = 0) +
     facet_grid(~uromol) +
     labs(tag = "C") +
     custom_ggplot +
     theme(
       legend.position = "none",
-      plot.tag.location = "plot"
+      plot.tag.location = "plot",
+      panel.spacing.x = unit(0.5, "lines"),
+      plot.margin = unit(c(0, 0.5, 0, 0), "lines")
     )
   ggsave(
-    "02_figures/uromol-prog-vs-src-cor.png",
-    plot,
-    width = 4.7, height = 2, units = "in", dpi = 500
+    "02_figures/uromol-prog-vs-src-cor.svg",  plot,
+    width = 77, height = 30, units = "mm"
   )
 }
 fig(wrangle(uromol))

@@ -1,6 +1,6 @@
 get_expression <- function() {
   download.file(
-    "https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-021-22465-w/MediaObjects/41467_2021_22465_MOESM5_ESM.zip", #nolint
+    "https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-021-22465-w/MediaObjects/41467_2021_22465_MOESM5_ESM.zip", # nolint
     paste0(tempdir(), "/data.zip"),
     method = "curl"
   )
@@ -9,8 +9,12 @@ get_expression <- function() {
 }
 
 get_clinical <- function() {
-  get_gbci("Datasets/uromol/uromol-2021_clin-dat.xlsx") |>
-    read_excel(skip = 1)
+  download.file(
+    "https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-021-22465-w/MediaObjects/41467_2021_22465_MOESM9_ESM.zip",
+    paste0(tempdir(), "/clin.zip")
+  )
+  unzip(paste0(tempdir(), "/clin.zip"), exdir = tempdir())
+  read_excel(paste0(tempdir(), "/Source Data/Source Data.xlsx"), skip = 1)
 }
 
 wrangle <- function(expression, clinical) {

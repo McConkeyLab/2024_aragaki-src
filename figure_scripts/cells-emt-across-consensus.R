@@ -20,8 +20,8 @@ fig <- function(cell_rna) {
   data <- semi_join(data, aov_sig, by = "signature")
 
   plot <- ggplot(data, aes(consensus, value, color = consensus)) +
-    geom_hline(yintercept = 0, linewidth = 0.2) +
-    geom_jitter(shape = 16, size = 0.75, alpha = 0.75, width = 0.2) +
+    geom_hline(yintercept = 0, linewidth = 0.3) +
+    geom_jitter(shape = 16, size = 0.75, width = 0.2) +
     geom_segment(
       data = aov_sig, aes(x = x, xend = xend, y = y, yend = yend),
       inherit.aes = FALSE
@@ -29,7 +29,7 @@ fig <- function(cell_rna) {
     geom_text(
       data = aov_sig, aes(y = label_y, x = mid, label = label),
       vjust = -0.3,
-      size = 2.5,
+      size = 1.7,
       inherit.aes = FALSE
     ) +
     custom_ggplot +
@@ -37,15 +37,15 @@ fig <- function(cell_rna) {
       panel.grid.major.x = element_blank(),
       axis.title.x = element_blank(),
       legend.position = "none",
-      plot.margin = unit(c(2, 0, 0, 0), "lines"),
+      plot.margin = unit(c(1.2, 0, 0, 0), "lines"),
       plot.tag.location = "plot"
     ) +
     coord_cartesian(ylim = c(-0.6, 0.6), clip = "off") +
     labs(color = "Consensus", y = "EMT Score", tag = "B")
 
   ggsave(
-    "02_figures/cells-emt-across-consensus.png", plot,
-    width = 2, height = 2.5, units = "in", dpi = 500
+    "02_figures/cells-emt-across-consensus.svg", plot,
+    width = 38, height = 40, units = "mm"
   )
 }
 
@@ -78,8 +78,7 @@ wrangle <- function(data) {
   assay(data) |>
     as_tibble(rownames = "signature") |>
     pivot_longer(-signature, names_to = "cell") |>
-    left_join(as_tibble(colData(data)), by = "cell") |>
-    filter()
+    left_join(as_tibble(colData(data)), by = "cell")
 }
 
 test <- function(data) {

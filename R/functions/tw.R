@@ -4,10 +4,7 @@ wrangle_tw_ka <- function(cell_rna) {
 }
 
 get_tw_ka <- function() {
-  get_gbci(
-    "Projects and Manuscripts/aragaki-kai/01_masterlists/aragaki_transwell_master.xlsx" #nolint
-  ) |>
-    read_excel()
+  read_excel("local-data/tw/aragaki_transwell_master.xlsx")
 }
 
 tidy_tw_ka <- function(tw, cell_rna) {
@@ -39,10 +36,7 @@ wrangle_tw_bw <- function(cell_rna) {
 }
 
 get_tw_bw <- function() {
-  get_gbci(
-    "Projects and Manuscripts/wehrenberg-bryan/Masterlists/wehrenberg_transwell_master.xlsx"
-  ) |>
-    read_excel(na = "NA")
+  read_excel("local-data/tw/wehrenberg_transwell_master.xlsx", na = "NA")
 }
 
 tidy_tw_bw <- function(tw, cell_rna) {

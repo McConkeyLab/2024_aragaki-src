@@ -11,10 +11,7 @@ uromol <- tar_read(uromol_plotting_data, store = "stores/uromol/")
 fig <- function(data) {
   tt <- test(data)
   plot <- ggplot(data, aes(uromol, SRC)) +
-    geom_jitter(
-      width = 0.2, shape = 16, alpha = 0.4, size = 0.5,
-      aes(color = uromol)
-    ) +
+    geom_jitter(width = 0.2, shape = 16, size = 0.5, aes(color = uromol)) +
     stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.1) +
     labs(x = NULL, y = "SRC", tag = "B") +
     geom_segment(
@@ -33,12 +30,13 @@ fig <- function(data) {
     theme(
       legend.position = "none",
       plot.tag.location = "plot",
-      panel.grid.major.x = element_blank()
+      panel.grid.major.x = element_blank(),
+      plot.margin = unit(c(0.1, 0, 0, 0), "lines")
     )
 
   ggsave(
-    "02_figures/uromol-src-across-class.png", plot,
-    width = 1.5, height = 2.5, units = "in", dpi = 500
+    "02_figures/uromol-src-across-class.svg", plot,
+    width = 38, height = 50, units = "mm"
   )
 }
 

@@ -10,7 +10,7 @@ fig <- function(data) {
   tt <- test(data)
   plot <- ggplot(data, aes(muscle_invasive, src)) +
     geom_jitter(
-      width = 0.2, shape = 16, alpha = 0.5, size = 0.5,
+      width = 0.2, shape = 16, size = 0.5,
       aes(color = muscle_invasive)
     ) +
     stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.1) +
@@ -26,8 +26,8 @@ fig <- function(data) {
     )
 
   ggsave(
-    "02_figures/lund-nmi-vs-mi.png", plot,
-    width = 1.2, height = 2.5, units = "in", dpi = 500
+    "02_figures/lund-nmi-vs-mi.svg", plot,
+    width = 38, height = 50, units = "mm"
   )
 }
 

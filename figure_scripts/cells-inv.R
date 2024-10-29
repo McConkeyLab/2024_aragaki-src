@@ -13,7 +13,7 @@ fig <- function(data) {
   tt <- test(summary)
 
   plot <- ggplot(d, aes(cell_line, adj_count)) +
-    geom_pointrange(data = summary, aes(y = Mean, ymin = Lower, ymax = Upper, color = consensus)) +
+    geom_pointrange(data = summary, aes(y = Mean, ymin = Lower, ymax = Upper, color = consensus), fatten = 1.5) +
     geom_segment(
       data = tt,
       aes(x = x, xend = xend, y = y, yend = y),
@@ -36,25 +36,29 @@ fig <- function(data) {
       data = tt,
       aes(x = label_x, y = label_y, label = stars),
       vjust = -0.2,
-      size = 3,
+      size = 1.7,
       inherit.aes = FALSE
     ) +
     coord_cartesian(ylim = c(0.1, 500), clip = "off") +
-    labs(y = "Cells/hr", color = "Consensus", tag = "B") +
+    labs(y = "Invaded cells/hr", color = "Consensus", tag = "D") +
     scale_y_log10() +
     custom_ggplot +
     theme(
       axis.title.x = element_blank(),
       axis.text.x = element_text(hjust = 0, vjust = 0.5, angle = -90),
       panel.grid.major.x = element_blank(),
-      plot.margin = unit(c(2.9, 0, 0, 0), "lines"),
+      plot.margin = unit(c(2.2, 0, 0, 0), "lines"),
       plot.tag.position = c(0, 1.25),
       plot.tag = element_text(hjust = 0),
-      legend.position = "bottom"
-    )
+      legend.position = "bottom",
+      legend.spacing.x = unit(0, "lines"),
+      legend.margin = margin(b = 1),
+      legend.key.size = unit(1, "pt")
+    ) +
+    guides(color = guide_legend(title = NULL))
   ggsave(
-    "02_figures/cells-inv.png", plot,
-    width = 3.7, height = 2.5, units = "in", dpi = 500
+    "02_figures/cells-inv.svg", plot,
+    width = 47, height = 50, units = "mm"
   )
 }
 
@@ -72,11 +76,11 @@ make_test_annotation <- function() {
   # ------     ------
   #   LP         Mes
   annot_coords <- tibble(
-    group_1 = c("lp", "lp", "lp",   "bs"),
+    group_1 = c("lp", "lp", "lp", "bs"),
     group_2 = c("bs", "ne", "ne", "ne"),
-    x =       c(1,      1,   18,   10),
-    xend =    c(17,     9,   19,   19),
-    y =       c(500, 10000, 10000, 2500),
+    x = c(1, 1, 18, 10),
+    xend = c(17, 9, 19, 19),
+    y = c(500, 10000, 10000, 2500),
     yend = y,
     mid = (x + xend) / 2
   )

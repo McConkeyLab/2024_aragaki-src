@@ -13,11 +13,11 @@ fig <- function(data) {
   tt <- test(d)
 
   plot <- ggplot(d, aes(x = name, y = adj_count, group = date)) +
-    geom_line(linewidth = 0.2) +
-    geom_point(aes(color = name), shape = 16, alpha = 0.75) +
+    geom_line(linewidth = 0.3) +
+    geom_point(shape = 16) +
     facet_grid(~cell_line) +
     scale_y_log10() +
-    geom_text(data = tt, aes(x, y, label = stars, group = NULL), size = 3) +
+    geom_text(data = tt, aes(x, y, label = stars, group = NULL), size = 1.7) +
     custom_ggplot +
     labs(y = "Cells/hr", tag = "B") +
     theme(
@@ -27,8 +27,9 @@ fig <- function(data) {
     ) +
     coord_cartesian(ylim = c(NA, 1000), clip = "off")
   ggsave(
-    "02_figures/cells-mig-src-ikd.png", plot,
-    width = 2.5, height = 2, units = "in", dpi = 500
+    "02_figures/cells-mig-src-ikd.svg", plot,
+
+    width = 38, height = 30, units = "mm"
   )
 }
 

@@ -15,9 +15,9 @@ fig <- function(cell_rna) {
   data <- data.frame(consensus = cell_rna$consensus, src = src)
   tt <- test(data)
   plot <- ggplot(data, aes(consensus, src)) +
-    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.1, linewidth = 0.2) +
+    stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.1, linewidth = 0.3) +
     geom_jitter(
-      shape = 16, size = 0.75, alpha = 0.75, width = 0.2,
+      shape = 16, size = 0.75, width = 0.2,
       aes(color = consensus)
     ) +
     geom_segment(
@@ -30,14 +30,14 @@ fig <- function(cell_rna) {
       aes(x = mid, y = label_y, label = stars),
       vjust = -0.3,
       inherit.aes = FALSE,
-      size = 3
+      size = 1.7
     ) +
     custom_ggplot +
     theme(
       legend.position = "none",
       panel.grid.major.x = element_blank(),
       plot.tag.location = "plot",
-      plot.margin = unit(c(2, 0, 0, 0), "lines")
+      plot.margin = unit(c(1.2, 0, 0, 0), "lines")
 
     ) +
     scale_x_discrete(labels = c("LP", "BS", "NE")) +
@@ -45,8 +45,8 @@ fig <- function(cell_rna) {
     labs(x = NULL, y = "SRC", tag = "A")
 
   ggsave(
-    "02_figures/cells-src-across-consensus.png", plot,
-    width = 2, height = 2.5, units = "in", dpi = 500
+    "02_figures/cells-src-across-consensus.svg", plot,
+    width = 38, height = 40, units = "mm"
   )
 }
 

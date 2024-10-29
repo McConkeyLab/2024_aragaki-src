@@ -2,23 +2,14 @@ library(bladdr)
 library(gplate)
 library(tidyverse)
 library(mop)
+library(fs)
 
 get_all_data <- function() {
-  c("2024-03-27_uc6-nt-004-no-dox-dr-dox.txt",
-    "2024-03-31_uc6-nt-004-dr-dox.txt",
-    "2024-04-01_uc6-nt-004-dr-bos-dox.txt",
-    "2024-04-02_uc6-nt-004-dr-bos.txt",
-    "2024-04-02_rt112-nt-004-dr-bos-dox.txt",
-    "2024-04-01_rt112-nt-004-dr-bos-dox.txt",
-    "2024-04-03_rt112-nt-004-bos-dox-dr.txt",
-    "2024-04-04_uc6-nt-004-bos-dr.txt") |>
-    lapply(get_data)
+    lapply(as.list(dir_ls("local-data/mtt/")), get_data)
 }
 
 get_data <- function(path) {
-  path <- paste0("MTT/", path)
-  get_spectramax(path, user_name = "aragaki-kai") |>
-    read_spectramax() |>
+  read_spectramax(path) |>
     plate_data() |>
     gp_serve()
 }

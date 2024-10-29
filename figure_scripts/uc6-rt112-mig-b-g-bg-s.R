@@ -14,11 +14,11 @@ fig <- function(data) {
   tt$panel <- factor(tt$panel, levels = levels(d$panel))
 
   plot <- ggplot(d, aes(x = name, y = adj_count, group = date)) +
-    geom_line(linewidth = 0.2) +
-    geom_point(aes(color = name), shape = 16, alpha = 0.75) +
+    geom_line(linewidth = 0.3) +
+    geom_point(aes(color = name), shape = 16) +
     facet_grid(cell_line ~ panel) +
     scale_y_log10() +
-    geom_text(data = tt, aes(x, y, label = stars, group = NULL), size = 3) +
+    geom_text(data = tt, aes(x, y, label = stars, group = NULL), size = 1.7) +
     custom_ggplot +
     labs(y = "Cells/hr") +
     theme(
@@ -28,8 +28,8 @@ fig <- function(data) {
     ) +
     coord_cartesian(ylim = c(NA, 100), clip = "off")
   ggsave(
-    "02_figures/uc6-rt112-mig-b-g-bg-s.png", plot,
-    width = 4, height = 2, units = "in", dpi = 500
+    "02_figures/uc6-rt112-mig-b-g-bg-s.svg", plot,
+    width = 77, height = 50, units = "mm"
   )
 }
 

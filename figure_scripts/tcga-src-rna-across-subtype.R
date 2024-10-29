@@ -10,9 +10,7 @@ tcga <- tar_read(tcga_plotting_data, store = "stores/tcga/")
 fig <- function(data) {
   tt <- test(data)
   plot <- ggplot(data, aes(subtype, src)) +
-    geom_jitter(
-      width = 0.2, shape = 16, alpha = 0.5, size = 0.5, aes(color = subtype)
-    ) +
+    geom_jitter(width = 0.2, shape = 16, size = 0.5, aes(color = subtype)) +
     stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.1) +
     geom_segment(
       data = tt,
@@ -24,7 +22,7 @@ fig <- function(data) {
       aes(x = mid, y = label_y, label = stars),
       vjust = -0.3,
       inherit.aes = FALSE,
-      size = 3
+      size = 1.7
     ) +
     labs(y = "SRC", x = NULL, tag = "A") +
     custom_ggplot +
@@ -32,12 +30,12 @@ fig <- function(data) {
       legend.position = "none",
       plot.tag.location = "plot",
       panel.grid.major.x = element_blank(),
-      plot.margin = unit(c(2.5, 0, 0, 0), "lines")
+      plot.margin = unit(c(1.2, 0, 0, 0), "lines")
     ) +
     coord_cartesian(ylim = c(NA, 16), clip = "off")
   ggsave(
-    "02_figures/tcga-src-rna-across-subtype.png", plot,
-    width = 2, height = 2.5, units = "in", dpi = 500
+    "02_figures/tcga-src-rna-across-subtype.svg", plot,
+    width = 20, height = 40, units = "mm"
   )
 }
 

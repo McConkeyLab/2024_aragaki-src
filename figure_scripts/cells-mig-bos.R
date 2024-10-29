@@ -13,7 +13,7 @@ fig <- function(data) {
 
   plot <- ggplot(d, aes(drug, adj_count, group = cell_line)) +
     facet_grid(~consensus, scale = "free_x", space = "free_x") +
-    geom_line(linewidth = 0.2) +
+    geom_line(linewidth = 0.3) +
     geom_text_repel(
       aes(label = label),
       xlim = c(1, 1),
@@ -34,11 +34,11 @@ fig <- function(data) {
       panel.grid.major.x = element_blank(),
       legend.position = "none"
     ) +
-    coord_cartesian(x = c(1, 2), clip = "off")
+    coord_cartesian(x = c(0.5, 2.5), clip = "off")
 
   ggsave(
-    "02_figures/cells-mig-bos.png", plot,
-    width = 3.5, height = 1.8, units = "in", dpi = 500
+    "02_figures/cells-mig-bos.svg", plot,
+    width = 77, height = 45, units = "mm"
   )
 }
 
@@ -55,31 +55,50 @@ prep_data <- function(data) {
       .by = c("cell_line", "date")
     )
 
-  filtered |>
+  mutated <- filtered |>
     summarize(
       adj_count = mean((count + 1) / time_hr),
-      .by = c(cell_line, drug, consensus)
+      .by = c(cell_line, drug, consensus, date)
     ) |>
     mutate(
       # Only label one side
       cell_line = toupper(cell_line),
       label = ifelse(drug == "dmso", as.character(cell_line), NA),
       drug = case_when(
-        drug == "dmso" ~ "-",
-        drug == "bosutinib" ~ "+"
+        drug == "dmso" ~ "DMSO",
+        drug == "bosutinib" ~ "Bosutinib"
       ),
-      drug = fct_relevel(drug, "-")
+      drug = fct_relevel(drug, "DMSO")
     )
 }
 
-test <- function(data) {
+test_individual <- function(data) {
   data |>
     select(-label) |>
+    filter(n() > 2, .by = cell_line) |>
+    pivot_wider(names_from = drug, values_from = adj_count) |>
+    tapply(~cell_line, \(x) tidy(t.test(x = x$DMSO, y = x$Bosutinib, paired = TRUE))) |>
+    array2DF() |>
+    mutate(pval_indiv = format_pval(p.value)) |>
+    select(cell_line, pval_indiv)
+}
+
+test_all <- function(data) {
+  data |>
+    summarize(adj_count = mean(adj_count), .by = c(cell_line, drug, consensus)) |>
     pivot_wider(names_from = drug, values_from = adj_count) |>
     mutate(consensus = as.character(consensus)) |>
     tapply(
-      ~consensus, \(x) tidy(t.test(x = x$`-`, y = x$`+`, paired = TRUE))
-    )
+      ~consensus, \(x) tidy(t.test(x = x$DMSO, y = x$Bosutinib, paired = TRUE))
+    ) |>
+    array2DF() |>
+    mutate(
+      x = 1.5,
+      y = max(d$adj_count) + 10,
+      pval_all = format_pval(p.value),
+      consensus = fct_rev(consensus)
+    ) |>
+    select(consensus, pval_all, x, y)
 }
 
 fig(tw)

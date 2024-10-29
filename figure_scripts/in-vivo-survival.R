@@ -5,7 +5,7 @@ library(ggsurvfit)
 library(broom)
 
 source("R/functions/common.R")
-tvi <- read_csv("01_data/01_in-vivo/survival.csv")
+tvi <- read_csv("local-data/in-vivo/survival.csv")
 
 fig <- function(data) {
   wrangled <- wrangle(data)
@@ -13,7 +13,7 @@ fig <- function(data) {
   tt <- test(wrangled)
 
   plot <- ggplot(plotting_data, aes(time, estimate)) +
-    facet_grid(~cell_line) +
+    facet_grid(rows = "cell_line") +
     geom_step(aes(color = dox)) +
     custom_ggplot +
     theme(
@@ -26,8 +26,8 @@ fig <- function(data) {
     ) +
     labs(y = "OS", x = "Time (days)", color = "SRC KD", tag = "A")
   ggsave(
-    "02_figures/in-vivo-survival.png", plot,
-    width = 4, height = 2, units = "in", dpi = 500
+    "02_figures/in-vivo-survival.svg", plot,
+    width = 60, height = 100, units = "mm"
   )
 }
 
