@@ -6,7 +6,7 @@ library(ggsurvfit)
 library(broom)
 
 source("R/functions/common.R")
-tvi <- read_csv("01_data/01_in-vivo/survival.csv")
+tvi <- read_csv("local-data/in-vivo/survival.csv")
 
 md <- distinct(tvi, id, .keep_all = TRUE) |>
   mutate(

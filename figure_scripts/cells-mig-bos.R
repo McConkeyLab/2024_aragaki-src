@@ -10,8 +10,17 @@ tw <- tar_read(tw, store = "stores/tw/")
 
 fig <- function(data) {
   d <- prep_data(data)
+  indiv <- test_individual(d)
+  all <- test_all(d)
+  pd <- summarize(d, adj_count = mean(adj_count), .by = c(cell_line, drug, consensus))
 
-  plot <- ggplot(d, aes(drug, adj_count, group = cell_line)) +
+  pd <- left_join(pd, indiv, by = "cell_line") |>
+    mutate(
+      pval_indiv = if_else(drug == "Bosutinib" & pval_indiv != "NS", pval_indiv, NA),
+      label = if_else(drug == "DMSO", cell_line, NA)
+    )
+
+  plot <- ggplot(pd, aes(drug, adj_count, group = cell_line)) +
     facet_grid(~consensus, scale = "free_x", space = "free_x") +
     geom_line(linewidth = 0.3) +
     geom_text_repel(

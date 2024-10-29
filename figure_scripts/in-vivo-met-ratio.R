@@ -7,20 +7,17 @@ library(broom)
 source("R/functions/common.R")
 
 wrangle <- function() {
-  get_gbci("Raw Data/mouse-measurements/hayashi-yujiro/tail-vein.xlsx") |>
-    read_excel() |>
+  read_excel("local-data/in-vivo/tail-vein.xlsx") |>
+    filter(str_detect(line, "NT")) |>
     mutate(
       cell_line = "UC6",
-      type = ifelse(str_detect(line, "NT"), "NT", "KD"),
+      type = "NT",
       dox = ifelse(str_detect(line, "_D$"), "+", "-")
     )
 }
 
 test <- function(data) {
-  tapply(
-    data, ~type, \(x) tidy(t.test(mets_to_lung_ratio ~ dox, data = x))
-  ) |>
-    array2DF() |>
+  tidy(t.test(mets_to_lung_ratio ~ dox, data = data)) |>
     mutate(
       label = format_pval(p.value),
       y = max(data$mets_to_lung_ratio, na.rm = TRUE),
@@ -40,9 +37,8 @@ fig <- function() {
     pivot_wider()
 
   plot <- ggplot(d, aes(dox, mets_to_lung_ratio + 0.0001, color = dox)) +
-    facet_grid(~type) +
     scale_y_log10() +
-    geom_jitter(width = 0.1, height = 0, alpha = 0.5, shape = 16, size = 0.5) +
+    geom_jitter(width = 0.1, height = 0, shape = 16, size = 0.5) +
     geom_pointrange(data = mets_summary, aes(y = Mean, ymin = Lower, ymax = Upper)) +
     geom_text(data = tt, aes(x = x, y = y, label = label),
               color = "black", size = 2.5, vjust = 0) +
@@ -55,7 +51,10 @@ fig <- function() {
       plot.tag.location = "plot",
       legend.position = "none"
     )
-  ggsave("02_figures/in-vivo-met-ratio.png", width = 1.5, height = 1.7, dpi = 500)
+  ggsave(
+    "02_figures/in-vivo-met-ratio.svg", plot,
+    width = 17, height = 100, units = "mm"
+  )
 }
 
 fig()

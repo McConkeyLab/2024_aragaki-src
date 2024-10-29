@@ -13,7 +13,7 @@ fig <- function(data) {
   tt <- test(summary)
 
   plot <- ggplot(d, aes(cell_line, adj_count)) +
-    geom_pointrange(data = summary, aes(y = Mean, ymin = Lower, ymax = Upper, color = consensus)) +
+    geom_pointrange(data = summary, aes(y = Mean, ymin = Lower, ymax = Upper, color = consensus), fatten = 1.5) +
     geom_segment(
       data = tt,
       aes(x = x, xend = xend, y = y, yend = y),
@@ -36,25 +36,26 @@ fig <- function(data) {
       data = tt,
       aes(x = label_x, y = label_y, label = stars),
       vjust = -0.3,
-      size = 3,
+      size = 1.7,
       inherit.aes = FALSE
     ) +
     coord_cartesian(ylim = c(NA, 1000), clip = "off") +
-    labs(y = "Cells/hr", color = "Consensus", tag = "A") +
+    labs(y = "Migrated cells/hr", color = "Consensus", tag = "C") +
     scale_y_log10() +
     custom_ggplot +
     theme(
       axis.title.x = element_blank(),
       axis.text.x = element_text(hjust = 0, vjust = 0.5, angle = -90),
       panel.grid.major.x = element_blank(),
-      plot.margin = unit(c(2.5, 0, 0, 0), "lines"),
+      plot.margin = unit(c(2, 0, 0, 0), "lines"),
       plot.tag.position = c(0, 1.25),
       plot.tag = element_text(hjust = 0),
-      legend.position = "none"
+      legend.position = "none",
+      text = element_text(size = 5)
     )
   ggsave(
-    "02_figures/cells-mig.png", plot,
-    width = 3.25, height = 1.7, units = "in", dpi = 500
+    "02_figures/cells-mig.svg", plot,
+    width = 30, height = 43, units = "mm"
   )
 }
 
@@ -72,11 +73,11 @@ make_test_annotation <- function() {
   # ------     ------
   #   LP         Mes
   annot_coords <- tibble(
-    group_1 = c("lp", "lp", "lp",   "eo"),
+    group_1 = c("lp", "lp", "lp", "eo"),
     group_2 = c("eo", "mes", "mes", "mes"),
-    x =       c(1,    1,     13,     8),
-    xend =    c(12,   7,     14,    14),
-    y =       c(1000, 10000, 10000, 3000),
+    x = c(1, 1, 13, 8),
+    xend = c(12, 7, 14, 14),
+    y = c(1000, 10000, 10000, 3000),
     yend = y,
     mid = (x + xend) / 2
   )

@@ -10,10 +10,7 @@ rppa <- tar_read(rppa_plotting_data, store = "stores/tcga/")
 fig <- function(data) {
   tt <- test(data)
   plot <- ggplot(data, aes(subtype, value)) +
-    geom_jitter(
-      width = 0.2, alpha = 0.5, shape = 16, size = 0.5,
-      aes(color = subtype)
-    ) +
+    geom_jitter(width = 0.2, shape = 16, size = 0.5, aes(color = subtype)) +
     stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.1) +
     geom_segment(
       data = tt,
@@ -25,7 +22,7 @@ fig <- function(data) {
       aes(x = mid, y = label_y, label = stars),
       vjust = -0.3,
       inherit.aes = FALSE,
-      size = 3
+      size = 1.7
     ) +
     facet_wrap(~peptide, strip.position = "bottom") +
     custom_ggplot +
@@ -33,13 +30,13 @@ fig <- function(data) {
       legend.position = "none",
       panel.grid.major.x = element_blank(),
       plot.tag.location = "plot",
-      plot.margin = unit(c(2.5, 0, 0, 0), "lines")
+      plot.margin = unit(c(1.2, 0, 0, 0), "lines")
     ) +
     coord_cartesian(ylim = c(NA, 3), clip = "off") +
     labs(y = "Expression", x = NULL, tag = "B", color = "Subtype")
   ggsave(
-    "02_figures/tcga-src-prot-across-subtype.png", plot,
-    width = 4, height = 2.5, units = "in", dpi = 500
+    "02_figures/tcga-src-prot-across-subtype.svg", plot,
+    width = 58, height = 40, units = "mm"
   )
 }
 
