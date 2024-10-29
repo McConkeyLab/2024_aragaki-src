@@ -25,7 +25,23 @@ fig <- function(data) {
       force = 15,
       seed = 12
     ) +
-    geom_point(aes(color = drug), shape = 16, alpha = 0.75) +
+    geom_text_repel(
+      aes(label = pval_indiv),
+      xlim = c(2, 2),
+      direction = "y",
+      hjust = 0,
+      min.segment.length = 0.1,
+      size = 2,
+      max.time = 10, max.iter = 1e6,
+      force = 15,
+      seed = 12
+    ) +
+    geom_text(
+      data = all,
+      aes(label = pval_all, x = x, y = y, group = NA),
+      color = "black"
+    ) +
+    geom_point(aes(color = drug), shape = 16) +
     scale_y_log10() +
     labs(y = "Cells/hr", color = "Condition") +
     custom_ggplot +
