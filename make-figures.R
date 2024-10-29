@@ -5,5 +5,6 @@
 # If you are a developer, you might want make.R
 # If you are a user, you probably want make-figures.R
 library(fs)
+library(targets)
 dir_create("02_figures")
 sapply(dir_ls("figure_scripts/"), source)
