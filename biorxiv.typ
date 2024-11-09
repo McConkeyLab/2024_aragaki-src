@@ -111,7 +111,7 @@ We next determined if sensitivity to Src inhibition varied across consensus clas
 
 #figure(
     grid(
-        columns: (1fr, 3fr),
+        columns: (1fr, 1fr),
         rows: 2,
         grid.cell(
             rowspan: 2,
